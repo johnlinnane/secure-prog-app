@@ -5,25 +5,16 @@ body {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
+}
   
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
   
 
 
 .App {
     text-align: center;
-  }
-  
-  .App-logo {
-    height: 40vmin;
-    pointer-events: none;
-  }
-  
-  .App-header {
     background-color: #282c34;
     min-height: 100vh;
     display: flex;
@@ -32,10 +23,22 @@ body {
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
-  }
+}
   
-  .App-link {
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+  
+  
+.App-link {
     color: #61dafb;
-  }
+}
   
-  
+.authenticate {
+  background-color: yellow;
+  border-radius: 5px;
+  color: #282c34;
+  padding: 1rem;
+  margin: 1rem;
+}
