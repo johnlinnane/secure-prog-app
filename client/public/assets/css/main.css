@@ -1,6 +1,13 @@
-* {
-    color: rgb(65, 65, 65);
+:root {
+    --dark: #282c34;
+    --light: rgb(196, 196, 196);
+    --submit: #4CAF50;
+    --submit-hover:  #45a049;
+}
 
+
+* {
+    color: var(--dark);
 
 }
 
@@ -17,7 +24,7 @@ input, select {
 
 button {
     width: 100%;
-    background-color: #4CAF50;
+    background-color: var(--submit);
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -27,7 +34,7 @@ button {
 }
   
 button:hover {
-    background-color: #45a049;
+    background-color: var(--submit-hover);
 }
 
 .centre_text {
@@ -36,7 +43,9 @@ button:hover {
 
 
 .page_view {
-    margin-top: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 10rem;
+    background-color:  rgb(196, 196, 196);
 }
 
 .form_container {
@@ -81,6 +90,12 @@ button:hover {
     color:rgb(65, 65, 65)
 }
 
+.logout_btn {
+    text-decoration: none;
+    color:rgb(65, 65, 65);
+    cursor: pointer;
+}
+
 
 
 .card_grid_container {
@@ -92,4 +107,8 @@ button:hover {
 
 .card {
     width: 18rem;
+}
+
+.btn_dark {
+    background-color: var(--light) !important;
 }

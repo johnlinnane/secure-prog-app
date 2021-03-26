@@ -8,7 +8,7 @@ class Header extends Component {
 
 
     register = () => {
-        axios.get("http://localhost:4000/logout")
+        axios.get("http://localhost:5000/logout")
             // .then((res) => {
             //     console.log(res)
             // });
@@ -57,7 +57,7 @@ class Header extends Component {
                         </Link>
                     </div>
 
-                    <div className="header_link link_tag" onClick={this.register}>
+                    <div className="header_link logout_btn" onClick={this.register}>
                         {/* <Link className="link_tag" to="/admin-register"> */}
                             Logout
                         {/* </Link> */}

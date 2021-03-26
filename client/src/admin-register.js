@@ -21,7 +21,7 @@ function AdminRegister() {
                 password2: registerPassword2,
             },
             withCredentials: true,
-            url: "http://localhost:4000/admin-register",
+            url: "http://localhost:5000/admin-register",
         }).then((res) => {
             setAlert(res.data)
             console.log(alert)
