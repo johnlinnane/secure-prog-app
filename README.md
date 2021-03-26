@@ -38,7 +38,9 @@ run this:
 `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.  
+  
+Will need to get the secure-prog-app/.env file off me, which contains the secret environmental variables
 
 # React
 
