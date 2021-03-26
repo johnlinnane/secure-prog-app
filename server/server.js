@@ -1,4 +1,5 @@
-// https://www.youtube.com/watch?v=IUw_TgRhTBE
+// Passport: https://www.youtube.com/watch?v=IUw_TgRhTBE
+// Express-validator: https://www.youtube.com/watch?v=z8m_Vy_9FIs
 
 const express = require('express')
 const mongoose = require('mongoose')
@@ -9,6 +10,8 @@ const cookieParser = require('cookie-parser')
 const bcrypt = require('bcryptjs')
 const session = require('express-session')
 const bodyParser = require('body-parser')
+const XXX = require('express-validator)
+
 
 const app = express()
 const User = require('./user')
