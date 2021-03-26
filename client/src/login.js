@@ -26,22 +26,24 @@ function Login() {
 
 
     return (
-        <div className="App form_container">
-            <h1>Login</h1>
-            <div className="form_element">
-                <input
-                    placeholder="username"
-                    onChange={(e) => setLoginUsername(e.target.value)}
-                />
-            </div>
-            <div className="form_element">
-                <input
-                    placeholder="password"
-                    onChange={(e) => setLoginPassword(e.target.value)}
-                />
-            </div>
-            <button onClick={login}>Submit</button>
+        <div className="page_view">
+            <div className="centre_text form_container">
+                <h1>Login</h1>
+                <div className="form_element">
+                    <input
+                        placeholder="Username"
+                        onChange={(e) => setLoginUsername(e.target.value)}
+                    />
+                </div>
+                <div className="form_element">
+                    <input
+                        placeholder="Password"
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                    />
+                </div>
+                <button onClick={login}>Submit</button>
 
+            </div>
         </div>
     );
 }

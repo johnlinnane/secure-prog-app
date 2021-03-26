@@ -11,25 +11,25 @@ class Header extends Component {
 
                 <div className="header_links">
                     <div className="header_link">
-                        <Link to="/">
+                        <Link className="link_tag" to="/">
                             Home    
                         </Link>
                     </div>
 
                     <div className="header_link">
-                        <Link to="/user">
+                        <Link className="link_tag" to="/user">
                             User    
                         </Link>
                     </div>
 
                     <div className="header_link">
-                        <Link to="/register">
+                        <Link className="link_tag" to="/register">
                             Register    
                         </Link>
                     </div>
 
                     <div className="header_link">
-                        <Link to="/login">
+                        <Link className="link_tag" to="/login">
                             Login    
                         </Link>
                     </div>

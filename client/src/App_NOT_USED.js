@@ -51,7 +51,7 @@ function Home() {
 
 
     return (
-        <div className="App">
+        <div className="centre_text">
             <div>
                 <h1>Register</h1>
                 <input

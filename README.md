@@ -1,38 +1,35 @@
 # Pre-requisites
 
 Node  
-MongoDB
 
-# Clone repository
+# Instructions
+### Clone repository
 
 `git clone git@github.com:johnlinnane/secure-prog-app.git`
 
-# Install App and Dependencies
+### Install App and Dependencies
 
-`cd` into secure-prog-app folder
+`cd` into secure-prog-app/client folder  
 
 run this:  
 `npm install`  
 
 
-# Start MongoDB
+`cd` into secure-prog-app/server folder  
 
-[Install and run MongoDB](https://docs.mongodb.com/guides/server/install/)
-
-will need me to send you the actual database also for you to upload  
-though it's not using the app's database right now  
-but the app will need MongoDB running for the server to start
+run this:  
+`npm install`  
 
 
-# Start Server
+### Start Server
 
 `cd` into secure-prog-app/server
 
 run this:  
 
-`node server`
+`nodemon server`
 
-# Start Front-end
+### Start Front-end
 
 cd into secure-prog-app/client
 
@@ -55,3 +52,8 @@ Youtube: [Node.js Tutorial For Absolute Beginners](https://www.youtube.com/watch
 Youtube: [Node.js Crash Course](https://www.youtube.com/watch?v=fBNz5xF-Kx4)  
 Youtube: [A High Level Overview of React](https://www.youtube.com/watch?v=FRjlF74_EZk)  
 Youtube: [Simple Passport Local Authentication w/ React & Node.js](https://www.youtube.com/watch?v=IUw_TgRhTBE)  
+
+# MongoDB
+
+App is running on a free [cloud version](https://https://www.mongodb.com/cloud/atlas) of MongoDB at the moment.
+I plan to run an [instance on the server](https://docs.mongodb.com/guides/server/install/) once the site is in order.

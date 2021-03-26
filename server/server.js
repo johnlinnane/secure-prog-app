@@ -9,8 +9,8 @@ const passportLocal = require('passport-local').Strategy
 const cookieParser = require('cookie-parser')
 const bcrypt = require('bcryptjs')
 const session = require('express-session')
-const bodyParser = require('body-parser')
-const XXX = require('express-validator)
+// const bodyParser = require('body-parser') //deprecated
+const { check, validationResult } = require('express-validator')
 
 
 const app = express()
@@ -25,8 +25,10 @@ mongoose.connect("mongodb+srv://john:umBongo!!@cluster0.1yk1z.mongodb.net/myFirs
 
 
 // Middleware
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
+// app.use(bodyParser.json()) //deprecated
+// app.use(bodyParser.urlencoded({extended: true})) 
+app.use(express.urlencoded({extended: true}))
+app.use(express.json());
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
@@ -65,22 +67,58 @@ app.post("/login", (req, res, next) => {
 })
 
 
-app.post("/register", (req, res, next) => {
-    User.findOne({username: req.body.username}, async (err, doc) => {
-        if (err) throw err;
-        if (doc) res.send('User Already Exists')
-        // create a new user if no document comes back
-        if (!doc) {
-            // hash the password
-            const hashedPassword = await bcrypt.hash(req.body.password, 10);
-            const newUser = new User({
-                username: req.body.username,
-                password: hashedPassword
-            });
-            await newUser.save();
-            res.send('User Created')
+app.post("/register", [
+        check('username', 'Username must be at least 3 characters long')
+            .exists()
+            .isLength({ min: 3 }),
+        check('password', 'Password must be at least 8 characters long')
+            .exists()
+            .isLength({ min: 8 })
+            .custom((pw, { req, loc, path }) => {
+                if (pw !== req.body.password2) {
+                    throw new Error("Passwords don't match");
+                }
+                // } else {
+                //     return value;
+                // }
+            })
+        
+        // check('email', 'Email is not valid')
+        //     .isEmail()
+        //     .normalizeEmail()
+    ], (req, res, next) => {
+
+        const errors = validationResult(req)
+        // check if we have errors
+        if (!errors.isEmpty()) {
+            console.log(errors)
+            // return res.status(422).jsonp(errors.array())
+            const alert = errors.array()
+
+            // res.render('register', {
+            //     alert
+            // })
+            res.json(alert)
+        } else {
+            console.log('Input is ok')
         }
-    })
+
+
+        // User.findOne({username: req.body.username}, async (err, doc) => {
+        //     if (err) throw err;
+        //     if (doc) res.send('User Already Exists')
+        //     // create a new user if no document comes back
+        //     if (!doc) {
+        //         // hash the password
+        //         const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        //         const newUser = new User({
+        //             username: req.body.username,
+        //             password: hashedPassword
+        //         });
+        //         await newUser.save();
+        //         res.send('User Created')
+        //     }
+        // })
 })
 
 

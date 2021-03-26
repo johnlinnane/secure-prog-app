@@ -5,7 +5,7 @@ import Header from './header'
 
 const Layout = (props) => {
     return (
-        <section className="layoutjs_wrapper">
+        <section>
             <Header />
             {props.children}
         </section>

@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-
-
-
 function User() {
     const [data, setData] = useState(null);
 
@@ -21,14 +18,15 @@ function User() {
     getUser();
 
 
-
     return (
-        <div className="App form_container">
-            {data ? 
-                <h1>Your Username: {data.username}</h1> 
-            : 
-                <h1>You are not logged in</h1> 
-            }
+        <div className="page_view">
+            <div className="centre_text form_container">
+                {data ? 
+                    <h1>Your Username: {data.username}</h1> 
+                : 
+                    <h1>You are not logged in</h1> 
+                }
+            </div>
         </div>
     );
 }
