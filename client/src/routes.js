@@ -7,6 +7,8 @@ import Home from './home';
 import Register from './register';
 import Login from './login';
 import User from './user';
+import AdminLogin from './admin-login';
+import AdminRegister from './admin-register';
 
 
 
@@ -28,6 +30,8 @@ const Routes = () => {
                 <Route path="/register" exact component={Register}/>
                 <Route path="/login" exact component={Login}/>
                 <Route path="/user" exact component={User}/>
+                <Route path="/admin-login" exact component={AdminLogin}/>
+                <Route path="/admin-register" exact component={AdminRegister}/>
              
                 
             </Switch>
