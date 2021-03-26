@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
-
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 
 class Header extends Component {
+
+
+
+    register = () => {
+        axios.get("http://localhost:4000/logout")
+            // .then((res) => {
+            //     console.log(res)
+            // });
+    };
+
 
 
     render() {
@@ -44,6 +55,12 @@ class Header extends Component {
                         <Link className="link_tag" to="/admin-register">
                             Admin Register
                         </Link>
+                    </div>
+
+                    <div className="header_link link_tag" onClick={this.register}>
+                        {/* <Link className="link_tag" to="/admin-register"> */}
+                            Logout
+                        {/* </Link> */}
                     </div>
                 </div>
                 
