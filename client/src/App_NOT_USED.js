@@ -21,7 +21,7 @@ function Home() {
                 password: registerPassword,
             },
             withCredentials: true,
-            url: "http://localhost:5000/register",
+            url: "http://localhost:5001/register",
         }).then((res) => console.log(res));
     };
     const login = () => {
@@ -32,14 +32,14 @@ function Home() {
                 password: loginPassword,
             },
             withCredentials: true,
-            url: "http://localhost:5000/login",
+            url: "http://localhost:5001/login",
         }).then((res) => console.log(res));
     };
     const getUser = () => {
         axios({
             method: "GET",
             withCredentials: true,
-            url: "http://localhost:5000/user",
+            url: "http://localhost:5001/user",
         }).then((res) => {
             setData(res.data);
             console.log(res.data);

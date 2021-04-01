@@ -8,7 +8,7 @@ class Header extends Component {
 
 
     register = () => {
-        axios.get("http://localhost:5000/logout")
+        axios.get("http://localhost:5001/logout")
             // .then((res) => {
             //     console.log(res)
             // });

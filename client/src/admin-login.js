@@ -16,7 +16,7 @@ function AdminLogin() {
                 password: adminLoginPassword,
             },
             withCredentials: true,
-            url: "http://localhost:5000/admin-login",
+            url: "http://localhost:5001/admin-login",
         }).then((res) => console.log(res));
     };
 

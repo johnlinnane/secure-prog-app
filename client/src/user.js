@@ -8,7 +8,7 @@ function User() {
         axios({
             method: "GET",
             withCredentials: true,
-            url: "http://localhost:5000/user",
+            url: "http://localhost:5001/user",
         }).then((res) => {
             setData(res.data);
             console.log(res.data);
