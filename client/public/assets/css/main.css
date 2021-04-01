@@ -112,3 +112,8 @@ button:hover {
 .btn_dark {
     background-color: var(--light) !important;
 }
+
+
+.file_input {
+    background-color: white;
+}

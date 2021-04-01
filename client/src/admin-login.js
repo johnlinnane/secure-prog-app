@@ -16,7 +16,7 @@ function AdminLogin() {
                 password: adminLoginPassword,
             },
             withCredentials: true,
-            url: "http://localhost:5001/admin-login",
+            url: "/api/admin-login",
         }).then((res) => console.log(res));
     };
 
@@ -36,6 +36,7 @@ function AdminLogin() {
                 </div>
                 <div className="form_element">
                     <input
+                        type="password"
                         placeholder="Password"
                         onChange={(e) => setAdminLoginPassword(e.target.value)}
                     />

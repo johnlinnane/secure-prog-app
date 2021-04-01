@@ -6,9 +6,10 @@ import Layout from './layout';
 import Home from './home';
 import Register from './register';
 import Login from './login';
-import User from './user';
+import UserZone from './user-zone';
 import AdminLogin from './admin-login';
-import AdminRegister from './admin-register';
+import AdminZone from './admin-zone';
+
 
 
 
@@ -29,9 +30,10 @@ const Routes = () => {
                 <Route path="/" exact component={Home}/>
                 <Route path="/register" exact component={Register}/>
                 <Route path="/login" exact component={Login}/>
-                <Route path="/user" exact component={User}/>
+                <Route path="/user-zone" exact component={UserZone}/>
+                <Route path="/admin-zone" exact component={AdminZone}/>
                 <Route path="/admin-login" exact component={AdminLogin}/>
-                <Route path="/admin-register" exact component={AdminRegister}/>
+                
              
                 
             </Switch>

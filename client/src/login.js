@@ -17,7 +17,7 @@ function Login() {
                 password: loginPassword,
             },
             withCredentials: true,
-            url: "http://localhost:5001/login",
+            url: "/api/login",
         }).then((res) => console.log(res));
     };
 
@@ -37,6 +37,7 @@ function Login() {
                 </div>
                 <div className="form_element">
                     <input
+                        type="password"
                         placeholder="Password"
                         onChange={(e) => setLoginPassword(e.target.value)}
                     />
