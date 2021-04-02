@@ -143,11 +143,11 @@ function UserZone() {
             <div className="centre_text form_container">
                 {data ? 
                     <div>
-                        <h1>Your Username: {data.id}</h1> 
+                        <h1>Your Username: {data.username}</h1> 
                         
                         {/* ************* SHOW PROFILE PIC ************* */}
 
-                        <h1 className="title">Profiler</h1>
+                        <h1 className="title">Picture:</h1>
                         <div className="gallery">
                             {imageIds &&
                                 imageIds.map((imageId, index) => (
@@ -165,7 +165,7 @@ function UserZone() {
                         {/* ************* FILE UPLOAD ************* */}
                         
                         <div>
-                            <h1 className="title">Upload a Profile Picture</h1>
+                            <h1 className="title">Upload a Profile Picture:</h1>
                             <Alert msg={errMsg} type="danger" />
                             <Alert msg={successMsg} type="success" />
 
