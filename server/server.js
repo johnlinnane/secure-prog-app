@@ -13,7 +13,7 @@ const bcrypt = require('bcryptjs')
 const session = require('express-session')
 // const bodyParser = require('body-parser') //deprecated
 const { check, validationResult } = require('express-validator')
-const { cloudinary } = require('./utils/cloudinary');
+const { cloudinary } = require('./config/cloudinary-config');
 
 const app = express()
 const User = require('./user')
@@ -35,14 +35,17 @@ mongoose.connect(process.env.MONGO_DB, {
 })
 
 
+
+// // ************************* CLOUDINARY MIDDLEWARE *************************
+
+app.use(express.static('public'));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 // ************************* MIDDLEWARE *************************
 
-// app.use(bodyParser.json()) //deprecated
-// app.use(bodyParser.urlencoded({extended: true})) 
-app.use(express.urlencoded({extended: true}))
-app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:5000",
     credentials: true
 }))
 // stores session data on the server side, not on the cookie itself
@@ -58,13 +61,7 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(passport.initialize());
 // start the session part of passport
 app.use(passport.session());
-require('./passportConfig')(passport);
-
-
-// ************************* CLOUDINARY MIDDLEWARE *************************
-app.use(express.static('public'));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+require('./config/passport-config')(passport);
 
 
 
@@ -134,6 +131,7 @@ app.post("/api/register", [
 
 app.get("/api/user", (req, res, next) => {
     // if user is authenticated, req.user will have user info
+    // console.log(req.user);
     res.send(req.user);
 })
 
@@ -150,7 +148,7 @@ app.post("/api/admin-login", (req, res, next) => {
             req.logIn(user, (err) => {
                 if (err) throw err;
                 res.send("Successfully Authenticated");
-                console.log(req.user);
+                // console.log(req.user);
             });
         }
       })(req, res, next);
@@ -205,23 +203,29 @@ app.get('/logout', function(req, res){
     res.redirect('/');
 });
 
-// ************************* CLOUDINARY IMAGE UPLOAD *************************
+// ************************* CLOUDINARY IMAGE DOWNLOAD UPLOAD *************************
 
-app.get('/api/images', async (req, res) => {
+app.post('/api/images', async (req, res) => {
     const { resources } = await cloudinary.search
-        .expression('folder:sec-prog-app')
+        .expression('folder:sec-prog-app AND ' + req.user.id)
         .sort_by('public_id', 'desc')
-        .max_results(30)
+        .max_results(1)
         .execute();
 
     const publicIds = resources.map((file) => file.public_id);
     res.send(publicIds);
 });
+
+
 app.post('/api/upload', async (req, res) => {
     try {
-        const fileStr = req.body.data;
+        // console.log(req.body.image)
+        const fileStr = req.body.image;
+        const fileName = req.body.name
+
         const uploadResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: 'sec-prog-app',
+            public_id: fileName
         });
         console.log(uploadResponse);
         res.json({ msg: 'Image fetched successfully' });
@@ -230,6 +234,7 @@ app.post('/api/upload', async (req, res) => {
         res.status(500).json({ err: 'Something went wrong' });
     }
 });
+
 
 
 // ************************* SERVE *************************

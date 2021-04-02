@@ -15,13 +15,6 @@ import AdminZone from './admin-zone';
 
 
 
-
-
-
-
-
-
-
 const Routes = () => {
     return (
         <Layout>
@@ -33,9 +26,7 @@ const Routes = () => {
                 <Route path="/user-zone" exact component={UserZone}/>
                 <Route path="/admin-zone" exact component={AdminZone}/>
                 <Route path="/admin-login" exact component={AdminLogin}/>
-                
-             
-                
+
             </Switch>
         </Layout>
     );

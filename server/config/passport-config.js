@@ -1,6 +1,6 @@
 
-const User = require("./user");
-const Admin = require("./admin");
+const User = require("./../user");
+const Admin = require("./../admin");
 const bcrypt = require("bcryptjs");
 const localStrategy = require("passport-local").Strategy;
 
@@ -38,7 +38,8 @@ module.exports = function (passport) {
             // only store username and disregard other credentials
             // restrict data that's sent back to the client
             const userInformation = {
-                username: user.username
+                username: user.username,
+                id: user._id
             };
             cb(err, userInformation);
         });

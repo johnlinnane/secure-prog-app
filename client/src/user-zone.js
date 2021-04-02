@@ -3,6 +3,8 @@ import { Image } from 'cloudinary-react';
 import axios from 'axios';
 import Alert from './Alert';
 
+require('dotenv').config();
+
 function UserZone() {
     const [data, setData] = useState(null);
 
@@ -14,30 +16,44 @@ function UserZone() {
         }).then((res) => {
             setData(res.data);
             console.log(res.data);
+            
         });
     };
-
-    getUser();
+    useEffect(() => {
+        getUser();
+    }, []);
+    
 
 
 
     // ************************ CLOUDINARY SHOW PROFILE PIC ************************ 
 
     const [imageIds, setImageIds] = useState();
-    const loadImages = async () => {
+    const loadImages = async (imageId) => {
+        console.log('load images')
         try {
-            const res = await fetch('/api/images');
-            const data = await res.json();
+            // const res = await fetch('/api/images');
+            const res = await axios({
+                url: '/api/images',
+                method: 'POST',
+                // data: {
+                //     image_id: imageId
+                // }
+            });
+            // const data = await res.json();
+            const data = await res.data;
             setImageIds(data);
         } catch (err) {
             console.error(err);
         }
     };
+
+
     useEffect(() => {
         loadImages();
     }, []);
 
-
+    console.log(imageIds)
 
     // ************************ CLOUDINARY FILE UPLOAD STUFF ************************ 
     const [fileInputState, setFileInputState] = useState('');
@@ -74,13 +90,39 @@ function UserZone() {
         };
     };
 
+
+
+
+
+
+
+
+
+
     const uploadImage = async (base64EncodedImage) => {
+
+
+
+
         try {
-            await fetch('/api/upload', {
-                method: 'POST',
-                body: JSON.stringify({ data: base64EncodedImage }),
-                headers: { 'Content-Type': 'application/json' },
+            // await fetch('/api/upload', {
+            //     method: 'POST',
+            //     body: JSON.stringify({ data: base64EncodedImage }),
+            //     headers: { 'Content-Type': 'application/json' },
+            // });
+            
+
+            await axios({
+                method: "POST",
+                url: "/api/upload",
+                data: { 
+                    // image: base64EncodedImage,
+                    image: base64EncodedImage,
+                    name: data.id
+                }
             });
+
+
             setFileInputState('');
             setPreviewSource('');
             setSuccessMsg('Image uploaded successfully');
@@ -92,8 +134,8 @@ function UserZone() {
 
     // ************************
 
-
-
+    console.log(imageIds)
+    
 
 
     return (
@@ -101,7 +143,7 @@ function UserZone() {
             <div className="centre_text form_container">
                 {data ? 
                     <div>
-                        <h1>Your Username: {data.username}</h1> 
+                        <h1>Your Username: {data.id}</h1> 
                         
                         {/* ************* SHOW PROFILE PIC ************* */}
 
