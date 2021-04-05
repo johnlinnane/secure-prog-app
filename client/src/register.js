@@ -29,15 +29,18 @@ function Register() {
     };
 
 
-    console.log('ALERT: ', alert)
+
+
+
+    console.log('ALERT:', alert)
 
 
     return (
         <div className="page_view">
             <div className="centre_text form_container">
-                <h1>Register</h1>
+                <h1>User Register</h1>
 
-                {alert.length  ?
+                {alert ?
                     <div>
                         {alert.map( (al, i) => (
                             <div className="alert alert-warning alert-dismissible fade show" role="alert" key={i}>

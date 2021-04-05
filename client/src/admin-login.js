@@ -27,7 +27,7 @@ function AdminLogin() {
     return (
         <div className="page_view">
             <div className="centre_text form_container">
-                <h1>Login</h1>
+                <h1>Admin Login</h1>
                 <div className="form_element">
                     <input
                         placeholder="Username"

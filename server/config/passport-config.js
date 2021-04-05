@@ -58,6 +58,7 @@ module.exports = function (passport) {
                 // if there's no user, null is the error and false is the admin user
                 if (!admin) return done(null, false); 
                 bcrypt.compare(password, admin.password, (err, result) => {
+                    console.log(result)
                     if (err) throw err;
                     if (result === true) {
                     return done(null, admin);

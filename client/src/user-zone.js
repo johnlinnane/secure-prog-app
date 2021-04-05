@@ -140,57 +140,62 @@ function UserZone() {
 
     return (
         <div className="page_view">
-            <div className="centre_text form_container">
+            <div className=" form_container">
                 {data ? 
                     <div>
-                        <h1>Your Username: {data.username}</h1> 
+                        <div className="user_section">
+                            Your Username: <h1>{data.username}</h1> 
+                        </div>
                         
                         {/* ************* SHOW PROFILE PIC ************* */}
 
-                        <h1 className="title">Picture:</h1>
-                        <div className="gallery">
-                            {imageIds &&
-                                imageIds.map((imageId, index) => (
-                                    <Image
-                                        key={index}
-                                        cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                                        publicId={imageId}
-                                        width="300"
-                                        crop="scale"
-                                    />
-                                ))}
+                        <div className="user_section">
+                            Your Profile Picture:
+                            <div>
+                                {imageIds &&
+                                    imageIds.map((imageId, index) => (
+                                        <Image
+                                            key={index}
+                                            cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+                                            publicId={imageId}
+                                            width="300"
+                                            crop="scale"
+                                        />
+                                    ))}
+                            </div>
                         </div>
 
 
                         {/* ************* FILE UPLOAD ************* */}
-                        
-                        <div>
-                            <h1 className="title">Upload a Profile Picture:</h1>
-                            <Alert msg={errMsg} type="danger" />
-                            <Alert msg={successMsg} type="success" />
+                        <div className="user_section">
+                            <div>
+                                Upload a New Profile Picture:
+                                <Alert msg={errMsg} type="danger" />
+                                <Alert msg={successMsg} type="success" />
 
-                            <form onSubmit={handleSubmitFile} className="form">
-                                <input
-                                    // id="fileInput"
-                                    className="file_input form_element" 
-                                    type="file"
-                                    name="image"
-                                    onChange={handleFileInputChange}
-                                    value={fileInputState}
+                                <form onSubmit={handleSubmitFile} className="form">
+                                    <input
+                                        // id="fileInput"
+                                        className="file_input form_element" 
+                                        type="file"
+                                        name="image"
+                                        onChange={handleFileInputChange}
+                                        value={fileInputState}
 
-                                />
-                                {previewSource && (
-                                    <img
-                                        src={previewSource}
-                                        alt="chosen"
-                                        style={{ height: '300px' }}
                                     />
-                                )}
-                                <button type="submit" className="form_element">
-                                    Submit
-                                </button>
-                            </form>
+                                    {previewSource && (
+                                        <img
+                                            src={previewSource}
+                                            alt="chosen"
+                                            style={{ height: '300px' }}
+                                        />
+                                    )}
+                                    <button type="submit" className="form_element">
+                                        Submit
+                                    </button>
+                                </form>
 
+                            </div>
                         </div>
                         {/* ************* END FILE UPLOAD ************* */}
 
