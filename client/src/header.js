@@ -1,83 +1,95 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-
-
-class Header extends Component {
 
 
 
-    register = () => {
-        axios.get("/api/logout")
-            // .then((res) => {
-            //     console.log(res)
-            // });
-    };
 
+// class Header extends Component {
+function Header() {
 
+    // const [redirect, setRedirect] = useState("");
 
-    render() {
-        return (
-            <header className="header">
+    // const register = () => {
+    //     console.log('Hi')
+    //     axios.get("/api/logout")
+    //         .then((res) => {
+    //             console.log(res.status)
+    //             if (res.status === 200) {
+    //                 setRedirect(true)
+    //             }
+    //         });
+    // };
 
-                <div className="header_links">
-                    <div className="header_link">
-                        <Link className="link_tag" to="/">
-                            Shop    
-                        </Link>
-                    </div>
+    // if (redirect) {
+    //     return <Redirect to='/home' />
+    // }
 
-                    <div className="header_link">
-                        <Link className="link_tag" to="/user-zone">
-                            User Zone   
-                        </Link>
-                    </div>
+    return (
+        <header className="header">
 
-                    <div className="header_link">
-                        <Link className="link_tag" to="/login">
-                            User Login    
-                        </Link>
-                    </div>
-
-                    <div className="header_link">
-                        <Link className="link_tag" to="/register">
-                            User Register    
-                        </Link>
-                    </div>
-
-                    <div className="header_link">
-                        <Link className="link_tag" to="/admin-zone">
-                            Admin Zone
-                        </Link>
-                    </div>
-
-                    <div className="header_link">
-                        <Link className="link_tag" to="/admin-login">
-                            Admin Login
-                        </Link>
-                    </div>
-
-
-                    <div className="header_link logout_btn" onClick={this.register}>
-                        {/* <Link className="link_tag" to="/admin-register"> */}
-                            Logout
-                        {/* </Link> */}
-                    </div>
+            <div className="header_links">
+                <div className="header_link">
+                    <Link className="link_tag" to="/">
+                        Shop    
+                    </Link>
                 </div>
-                
 
-                
+                <div className="header_link">
+                    <Link className="link_tag" to="/user-zone">
+                        User Zone   
+                    </Link>
+                </div>
 
-                
+                <div className="header_link">
+                    <Link className="link_tag" to="/login">
+                        <strike>User Login</strike>
+                    </Link>
+                </div>
+
+                <div className="header_link">
+                    <Link className="link_tag" to="/register">
+                        User Register    
+                    </Link>
+                </div>
+
+                <div className="header_link">
+                    <Link className="link_tag" to="/admin-zone">
+                        Admin Zone
+                    </Link>
+                </div>
+
+                <div className="header_link">
+                    <Link className="link_tag" to="/admin-login">
+                        Admin Login
+                    </Link>
+                </div>
 
 
-                
+                {/* <div className="header_link logout_btn" onClick={register}>
+                        Logout
+                </div> */}
+
+                <div className="header_link">
+                    <Link className="link_tag" to="/logout">
+                        Logout
+                    </Link>
+                </div>
 
 
-               
-            </header>
-        );
-    }
+            </div>
+            
+
+            
+
+            
+
+
+            
+
+
+            
+        </header>
+    );
 }
 
 export default Header;

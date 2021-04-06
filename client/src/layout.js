@@ -1,13 +1,13 @@
 import React from 'react';
 
 import Header from './header'
-
+import Routes from './routes';
 
 const Layout = (props) => {
     return (
         <section>
             <Header />
-            {props.children}
+            <Routes />
         </section>
     );
 };

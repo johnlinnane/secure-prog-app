@@ -81,8 +81,9 @@ app.post("/api/login", (req, res, next) => {
             // logIn is a passport method
             req.logIn(user, (err) => {
                 if (err) throw err;
-                res.send("User Successfully Authenticated");
-                console.log(req.user);
+                res.status(200).send("User Successfully Authenticated");
+                // this.props.history.push('/hound')
+                // res.redirect('/hash')
             });
         }
       })(req, res, next);
@@ -206,26 +207,28 @@ app.post("/api/admin-login", (req, res, next) => {
 
 app.get('/api/logout', function(req, res){
     req.logout();
-    res.redirect('/');
+    res.status(200).send("Logged out successfully");
 });
 
 // app.get('/api/logout', function (req, res){
 //     req.session.destroy(function (err) {
-//       res.redirect('/'); //Inside a callback… bulletproof!
+//         res.redirect('/'); //Inside a callback… bulletproof!
 //     });
 // });
 
 // ************************* CLOUDINARY IMAGE DOWNLOAD UPLOAD *************************
 
 app.post('/api/images', async (req, res) => {
-    const { resources } = await cloudinary.search
-        .expression('folder:sec-prog-app AND ' + req.user.id)
-        .sort_by('public_id', 'desc')
-        .max_results(1)
-        .execute();
+    if (req.user.id) {
+        const { resources } = await cloudinary.search
+            .expression('folder:sec-prog-app AND ' + req.user.id)
+            .sort_by('public_id', 'desc')
+            .max_results(1)
+            .execute();
 
-    const publicIds = resources.map((file) => file.public_id);
-    res.send(publicIds);
+        const publicIds = resources.map((file) => file.public_id);
+        res.send(publicIds);
+    }
 });
 
 

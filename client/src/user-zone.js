@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Image } from 'cloudinary-react';
 import axios from 'axios';
 import Alert from './Alert';
+import { Redirect } from 'react-router-dom';
 
 require('dotenv').config();
 
 function UserZone() {
     const [data, setData] = useState(null);
+    const [loginFail, setLoginFail] = useState(null);
 
     const getUser = () => {
         axios({
@@ -16,6 +18,9 @@ function UserZone() {
         }).then((res) => {
             setData(res.data);
             console.log(res.data);
+            if (!res.data) {
+                setLoginFail(true)
+            }
             
         });
     };
@@ -101,22 +106,11 @@ function UserZone() {
 
     const uploadImage = async (base64EncodedImage) => {
 
-
-
-
         try {
-            // await fetch('/api/upload', {
-            //     method: 'POST',
-            //     body: JSON.stringify({ data: base64EncodedImage }),
-            //     headers: { 'Content-Type': 'application/json' },
-            // });
-            
-
             await axios({
                 method: "POST",
                 url: "/api/upload",
                 data: { 
-                    // image: base64EncodedImage,
                     image: base64EncodedImage,
                     name: data.id
                 }
@@ -134,14 +128,13 @@ function UserZone() {
 
     // ************************
 
-    console.log(imageIds)
-    
-
+    console.log('loginfail: ', loginFail)
 
     return (
         <div className="page_view">
             <div className=" form_container">
                 {data ? 
+                      
                     <div>
                         <div className="user_section">
                             Your Username: <h1>{data.username}</h1> 
@@ -200,24 +193,25 @@ function UserZone() {
                         {/* ************* END FILE UPLOAD ************* */}
 
 
-                    </div>                
-
-
-
-                : 
-                    <h1>You are not logged in</h1> 
-                }
-
-
+                    </div>  
+                    : null }
+                    
+                    { loginFail ?           
+                        <div>
+                            <Redirect to='/login' />
+                        </div>  
+                    : null }
                 
-
-
                 
-
-
+                
+                
             </div>
         </div>
-    );
+
+        
+           
+    )
+
 }
 
 export default UserZone;
