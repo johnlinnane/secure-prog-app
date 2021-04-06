@@ -4,25 +4,8 @@ import { Link } from 'react-router-dom';
 
 
 
-// class Header extends Component {
 function Header() {
 
-    // const [redirect, setRedirect] = useState("");
-
-    // const register = () => {
-    //     console.log('Hi')
-    //     axios.get("/api/logout")
-    //         .then((res) => {
-    //             console.log(res.status)
-    //             if (res.status === 200) {
-    //                 setRedirect(true)
-    //             }
-    //         });
-    // };
-
-    // if (redirect) {
-    //     return <Redirect to='/home' />
-    // }
 
     return (
         <header className="header">

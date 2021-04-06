@@ -20,7 +20,7 @@ function Login() {
                 password: loginPassword,
             },
             withCredentials: true,
-            url: "/api/login",
+            url: "/api/user-login",
         }).then((res) => {
             console.log(res.status);
             console.log(res.data);
@@ -33,7 +33,6 @@ function Login() {
 
     if (redirect) {
         return <Redirect to='/user-zone' />
-        // return <div>redirect</div>
     }
 
 

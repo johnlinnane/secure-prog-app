@@ -21,7 +21,7 @@ function Register() {
                 password2: registerPassword2,
             },
             withCredentials: true,
-            url: "/api/register",
+            url: "/api/user-register",
         }).then((res) => {
             setAlert(res.data)
             console.log(alert)

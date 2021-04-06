@@ -7,16 +7,16 @@ import { Redirect } from 'react-router-dom';
 require('dotenv').config();
 
 function UserZone() {
-    const [data, setData] = useState(null);
+    const [userData, setUserData] = useState(null);
     const [loginFail, setLoginFail] = useState(null);
 
     const getUser = () => {
         axios({
             method: "GET",
             withCredentials: true,
-            url: "/api/user",
+            url: "/api/get-user",
         }).then((res) => {
-            setData(res.data);
+            setUserData(res.data);
             console.log(res.data);
             if (!res.data) {
                 setLoginFail(true)
@@ -41,9 +41,6 @@ function UserZone() {
             const res = await axios({
                 url: '/api/images',
                 method: 'POST',
-                // data: {
-                //     image_id: imageId
-                // }
             });
             // const data = await res.json();
             const data = await res.data;
@@ -97,13 +94,6 @@ function UserZone() {
 
 
 
-
-
-
-
-
-
-
     const uploadImage = async (base64EncodedImage) => {
 
         try {
@@ -112,7 +102,7 @@ function UserZone() {
                 url: "/api/upload",
                 data: { 
                     image: base64EncodedImage,
-                    name: data.id
+                    name: userData.id
                 }
             });
 
@@ -133,11 +123,11 @@ function UserZone() {
     return (
         <div className="page_view">
             <div className=" form_container">
-                {data ? 
+                {userData ? 
                       
                     <div>
                         <div className="user_section">
-                            Your Username: <h1>{data.username}</h1> 
+                            Your Username: <h1>{userData.username}</h1> 
                         </div>
                         
                         {/* ************* SHOW PROFILE PIC ************* */}

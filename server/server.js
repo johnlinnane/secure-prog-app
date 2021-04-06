@@ -72,7 +72,7 @@ require('./config/passport-config')(passport);
 
 // ************ USER *********
 
-app.post("/api/login", (req, res, next) => {
+app.post("/api/user-login", (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
     passport.authenticate("pp-user", (err, user, info) => {
         if (err) throw err;
@@ -82,15 +82,13 @@ app.post("/api/login", (req, res, next) => {
             req.logIn(user, (err) => {
                 if (err) throw err;
                 res.status(200).send("User Successfully Authenticated");
-                // this.props.history.push('/hound')
-                // res.redirect('/hash')
             });
         }
       })(req, res, next);
 })
 
 
-app.post("/api/register", [
+app.post("/api/user-register", [
         // https://express-validator.github.io/docs/validation-chain-api.html
         check('username', 'Username must be at least 3 characters long')
             .exists()
@@ -136,7 +134,7 @@ app.post("/api/register", [
 })
 
 
-app.get("/api/user", (req, res, next) => {
+app.get("/api/get-user", (req, res, next) => {
     // if user is authenticated, req.user will have user info
     // console.log(req.user);
     res.send(req.user);
@@ -204,17 +202,20 @@ app.post("/api/admin-login", (req, res, next) => {
 //     })
 // })
 
+app.get("/api/get-admin", (req, res, next) => {
+    // if user is authenticated, req.user will have user info
+    // console.log(req.user);
+    res.send(req.admin);
+})
+
+
+// ************ LOGOUT *********
+
 
 app.get('/api/logout', function(req, res){
     req.logout();
     res.status(200).send("Logged out successfully");
 });
-
-// app.get('/api/logout', function (req, res){
-//     req.session.destroy(function (err) {
-//         res.redirect('/'); //Inside a callback… bulletproof!
-//     });
-// });
 
 // ************************* CLOUDINARY IMAGE DOWNLOAD UPLOAD *************************
 

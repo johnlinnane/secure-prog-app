@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function AdminZone() {
 
+    const [adminData, setAdminData] = useState(null);
+    const [loginFail, setLoginFail] = useState(null);
 
+    const getAdmin = () => {
+        axios({
+            method: "GET",
+            withCredentials: true,
+            url: "/api/get-admin",
+        }).then((res) => {
+            setAdminData(res.data);
+            console.log('RES.DATA: ',res.data);
+            if (!res.data) {
+                setLoginFail(true)
+            }
+            
+        });
+    };
+    useEffect(() => {
+        getAdmin();
+    }, []);
 
 
 
