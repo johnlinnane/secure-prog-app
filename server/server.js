@@ -19,7 +19,7 @@ const app = express()
 const Customer = require('./db-schemas/customer')
 const Admin = require('./db-schemas/admin')
 
-require('dotenv').config({path: '../.env'})
+require('dotenv').config({path: './.env'})
 
 
 
@@ -50,6 +50,9 @@ app.use(cors({
     ],
     credentials: true
 }))
+
+
+console.log('process.env.CLIENT_BASE_URL: ', process.env.CLIENT_BASE_URL)
 // stores session data on the server side, not on the cookie itself
 // uses memory storage
 app.use(session({
