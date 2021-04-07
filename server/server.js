@@ -46,8 +46,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(cors({
     origin: [
-        "http://localhost:5000",
-        "hppt://64.227.34.134:5000"
+        process.env.API_BASE_URL
     ],
     credentials: true
 }))
