@@ -46,7 +46,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(cors({
     origin: [
-        process.env.API_BASE_URL
+        process.env.CLIENT_BASE_URL
     ],
     credentials: true
 }))
