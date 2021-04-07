@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-
+require('dotenv').config({path: '../.env'})
 
 
 
@@ -21,7 +21,7 @@ function CustomerRegister() {
                 password2: registerPassword2,
             },
             withCredentials: true,
-            url: "/api/customer-register",
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/customer-register`,
         }).then((res) => {
             setAlert(res.data)
             console.log(alert)

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-
+require('dotenv').config({path: '../.env'})
 
 
 
@@ -13,6 +13,9 @@ function Home() {
         
     const [data, setData] = useState(null);
 
+
+    require('dotenv').config({path: '../.env'})
+
     const register = () => {
         axios({
             method: "POST",
@@ -21,7 +24,7 @@ function Home() {
                 password: registerPassword,
             },
             withCredentials: true,
-            url: "/api/customer-register",
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/customer-register`,
         }).then((res) => console.log(res));
     };
     const login = () => {
@@ -32,14 +35,14 @@ function Home() {
                 password: loginPassword,
             },
             withCredentials: true,
-            url: "/api/customer-login",
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/customer-login`,
         }).then((res) => console.log(res));
     };
     const getUser = () => {
         axios({
             method: "GET",
             withCredentials: true,
-            url: "/api/get-customer",
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/get-customer`,
         }).then((res) => {
             setData(res.data);
             console.log(res.data);

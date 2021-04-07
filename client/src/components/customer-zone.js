@@ -15,7 +15,7 @@ function CustomerZone() {
         axios({
             method: "GET",
             withCredentials: true,
-            url: "/api/get-customer",
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/get-customer`,
         }).then((res) => {
             setUserData(res.data);
             console.log('RES.DATA', res.data);
@@ -42,7 +42,7 @@ function CustomerZone() {
         try {
             // const res = await fetch('/api/images');
             const res = await axios({
-                url: '/api/images',
+                url: `${process.env.REACT_APP_API_BASE_URL}/api/images`,
                 method: 'POST',
             });
             // const data = await res.json();
@@ -102,7 +102,7 @@ function CustomerZone() {
         try {
             await axios({
                 method: "POST",
-                url: "/api/upload",
+                url: `${process.env.REACT_APP_API_BASE_URL}/api/upload`,
                 data: { 
                     image: base64EncodedImage,
                     name: userData.id

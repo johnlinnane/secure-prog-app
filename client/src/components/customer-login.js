@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Redirect } from "react-router-dom";
 
 
-
+require('dotenv').config({path: '../.env'})
 
 
 function CustomerLogin() {
@@ -20,7 +20,7 @@ function CustomerLogin() {
                 password: loginPassword,
             },
             withCredentials: true,
-            url: "/api/customer-login",
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/customer-login`,
         }).then((res) => {
             console.log(res.status);
             console.log(res.data);
