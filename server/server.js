@@ -45,7 +45,10 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // ************************* MIDDLEWARE *************************
 
 app.use(cors({
-    origin: "http://localhost:5000",
+    origin: [
+        "http://localhost:5000",
+        "hppt://64.227.34.134:5000"
+    ],
     credentials: true
 }))
 // stores session data on the server side, not on the cookie itself
@@ -72,7 +75,7 @@ require('./config/passport-config')(passport);
 
 
 
-// ************ USER *********
+// ************ CUSTOMER *********
 
 app.post("/api/customer-login", (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
@@ -155,22 +158,7 @@ app.get("/api/get-customer", (req, res, next) => {
 
 
 
-app.get("/api/get-admin", (req, res, next) => {
-    // if user is authenticated, req.user will have user info
-    console.log('REQ.USER: ',req.user);
 
-    if (req.user) {
-        Admin.findOne({ _id: req.user.id }, (err, user) => {
-            if (user) {
-                res.send(req.user);
-            } else {
-                res.send(null)
-            }
-        })
-    } else {
-        res.send(null)
-    }
-})
 
 
 
@@ -244,8 +232,42 @@ app.get("/api/get-admin", (req, res, next) => {
         Admin.findOne({ _id: req.user.id }, (err, user) => {
             if (user) {
                 res.send(req.user);
+            } else {
+                res.send(null)
             }
         })
+    } else {
+        res.send(null)
+    }
+})
+
+
+
+
+app.get("/api/get-admin-info", (req, res, next) => {
+    // if user is authenticated, req.user will have user info
+    console.log('REQ.USER: ',req.user);
+
+    if (req.user) {
+        Admin.findOne({ _id: req.user.id }, (err, user) => {
+            if (user) {
+                Customer.find({}, (error, data) => {
+                    if (error) res.send('Could not find customer data');
+                    if (data) {
+                        console.log('THE DATA IS: ', data);
+                        res.send(data);
+                    } else {
+                        console.log('NO DATA')
+                    }
+                })
+
+
+            } else {
+                res.send('Could not find admin')
+            }
+        })
+    } else {
+        res.send(null)
     }
 })
 

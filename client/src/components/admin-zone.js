@@ -27,6 +27,33 @@ function AdminZone() {
 
 
 
+
+
+    const [customerData, setCustomerData] = useState(null);
+    const getCustomerData = async (imageId) => {
+        console.log('load images')
+        try {
+            // const res = await fetch('/api/images');
+            const res = await axios({
+                url: '/api/get-admin-info',
+                method: 'GET',
+            });
+            // const data = await res.json();
+            const data = await res.data;
+            console.log('CUSTOMER DATA: ', data)
+            setCustomerData(data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+
+    useEffect(() => {
+        getCustomerData();
+    }, []);
+
+
+
     return (
         <div className="page_view">
             <div className="centre_text form_container">
