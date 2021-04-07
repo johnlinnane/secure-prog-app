@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 function AdminZone() {
 
@@ -29,7 +30,14 @@ function AdminZone() {
     return (
         <div className="page_view">
             <div className="centre_text form_container">
-                <h1>This is the admin zone</h1>
+                {adminData ?
+                    <h1>Admin is logged in</h1>
+                : null }
+
+                { loginFail ?
+                    <Redirect to='/admin-login' />
+                : null }
+
             </div>
         </div>
     );

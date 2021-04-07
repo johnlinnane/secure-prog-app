@@ -16,8 +16,8 @@ const { check, body,  validationResult } = require('express-validator')
 const { cloudinary } = require('./config/cloudinary-config');
 
 const app = express()
-const User = require('./user')
-const Admin = require('./admin')
+const Customer = require('./db-schemas/customer')
+const Admin = require('./db-schemas/admin')
 
 require('dotenv').config({path: '../.env'})
 
@@ -70,9 +70,11 @@ require('./config/passport-config')(passport);
 
 // ************************* API ROUTES *************************
 
+
+
 // ************ USER *********
 
-app.post("/api/user-login", (req, res, next) => {
+app.post("/api/customer-login", (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
     passport.authenticate("pp-user", (err, user, info) => {
         if (err) throw err;
@@ -88,7 +90,7 @@ app.post("/api/user-login", (req, res, next) => {
 })
 
 
-app.post("/api/user-register", [
+app.post("/api/customer-register", [
         // https://express-validator.github.io/docs/validation-chain-api.html
         check('username', 'Username must be at least 3 characters long')
             .exists()
@@ -116,29 +118,61 @@ app.post("/api/user-register", [
             res.send(alert)  // was res.json
         } 
 
-        User.findOne({username: req.body.username}, async (err, doc) => {
+        Customer.findOne({username: req.body.username}, async (err, doc) => {
             if (err) throw err;
-            if (doc) res.send('User Already Exists')
+            if (doc) res.send('Customer Already Exists')
             // create a new user if no document comes back
             if (!doc) {
                 // hash the password
                 const hashedPassword = await bcrypt.hash(req.body.password, 10);
-                const newUser = new User({
+                const newCustomer = new Customer({
                     username: req.body.username,
                     password: hashedPassword
                 });
-                await newUser.save();
-                res.send('User Created')
+                await newCustomer.save();
+                res.send('Customer Created')
             }
         })
 })
 
 
-app.get("/api/get-user", (req, res, next) => {
+app.get("/api/get-customer", (req, res, next) => {
     // if user is authenticated, req.user will have user info
-    // console.log(req.user);
-    res.send(req.user);
+    console.log('REQ.USER: ', req.user);
+
+    if (req.user) {
+        Customer.findOne({ _id: req.user.id }, (err, user) => {
+            if (user) {
+                res.send(req.user);
+            } else {
+                res.send(null)
+            }
+        })
+    } else {
+        res.send(null)
+    }
 })
+
+
+
+app.get("/api/get-admin", (req, res, next) => {
+    // if user is authenticated, req.user will have user info
+    console.log('REQ.USER: ',req.user);
+
+    if (req.user) {
+        Admin.findOne({ _id: req.user.id }, (err, user) => {
+            if (user) {
+                res.send(req.user);
+            } else {
+                res.send(null)
+            }
+        })
+    } else {
+        res.send(null)
+    }
+})
+
+
 
 
 // ************ ADMIN *********
@@ -147,7 +181,7 @@ app.post("/api/admin-login", (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
     passport.authenticate("pp-admin", (err, user, info) => {
         if (err) throw err;
-        if (!user) res.send("No User Exists");
+        if (!user) res.send("No Admin Exists");
         else {
             // logIn is a passport method
             req.logIn(user, (err) => {
@@ -187,7 +221,7 @@ app.post("/api/admin-login", (req, res, next) => {
 
 //     Admin.findOne({username: req.body.username}, async (err, doc) => {
 //         if (err) throw err;
-//         if (doc) res.send('User Already Exists')
+//         if (doc) res.send('Admin Already Exists')
 //         // create a new user if no document comes back
 //         if (!doc) {
 //             // hash the password
@@ -204,8 +238,15 @@ app.post("/api/admin-login", (req, res, next) => {
 
 app.get("/api/get-admin", (req, res, next) => {
     // if user is authenticated, req.user will have user info
-    // console.log(req.user);
-    res.send(req.admin);
+    console.log('REQ.USER: ',req.user);
+
+    if (req.user) {
+        Admin.findOne({ _id: req.user.id }, (err, user) => {
+            if (user) {
+                res.send(req.user);
+            }
+        })
+    }
 })
 
 
@@ -220,7 +261,7 @@ app.get('/api/logout', function(req, res){
 // ************************* CLOUDINARY IMAGE DOWNLOAD UPLOAD *************************
 
 app.post('/api/images', async (req, res) => {
-    if (req.user.id) {
+    if (req.user && req.user.id) {
         const { resources } = await cloudinary.search
             .expression('folder:sec-prog-app AND ' + req.user.id)
             .sort_by('public_id', 'desc')
@@ -244,7 +285,7 @@ app.post('/api/upload', async (req, res) => {
             public_id: fileName,
             invalidate: true
         });
-        console.log(uploadResponse);
+        console.log('UPLOADRESPONSE:', uploadResponse);
         res.json({ msg: 'Image fetched successfully' });   // might not be json now with axios !!
     } catch (err) {
         console.error(err);

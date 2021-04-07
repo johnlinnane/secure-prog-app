@@ -18,20 +18,20 @@ function Header() {
                 </div>
 
                 <div className="header_link">
-                    <Link className="link_tag" to="/user-zone">
-                        User Zone   
+                    <Link className="link_tag" to="/customer-zone">
+                        Customer Zone   
                     </Link>
                 </div>
 
-                <div className="header_link">
-                    <Link className="link_tag" to="/login">
-                        <strike>User Login</strike>
+                {/* <div className="header_link">
+                    <Link className="link_tag" to="/customer-login">
+                        <strike>Customer Login</strike>
                     </Link>
-                </div>
+                </div> */}
 
                 <div className="header_link">
                     <Link className="link_tag" to="/register">
-                        User Register    
+                        Customer Register    
                     </Link>
                 </div>
 
@@ -41,15 +41,10 @@ function Header() {
                     </Link>
                 </div>
 
-                <div className="header_link">
+                {/* <div className="header_link">
                     <Link className="link_tag" to="/admin-login">
                         Admin Login
                     </Link>
-                </div>
-
-
-                {/* <div className="header_link logout_btn" onClick={register}>
-                        Logout
                 </div> */}
 
                 <div className="header_link">

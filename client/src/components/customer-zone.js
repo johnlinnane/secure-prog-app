@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { Image } from 'cloudinary-react';
 import axios from 'axios';
-import Alert from './Alert';
+import Alert from '../Alert';
 import { Redirect } from 'react-router-dom';
 
 require('dotenv').config();
 
-function UserZone() {
+function CustomerZone() {
     const [userData, setUserData] = useState(null);
     const [loginFail, setLoginFail] = useState(null);
+
 
     const getUser = () => {
         axios({
             method: "GET",
             withCredentials: true,
-            url: "/api/get-user",
+            url: "/api/get-customer",
         }).then((res) => {
             setUserData(res.data);
-            console.log(res.data);
+            console.log('RES.DATA', res.data);
             if (!res.data) {
                 setLoginFail(true)
             }
             
         });
     };
+
+
     useEffect(() => {
         getUser();
     }, []);
@@ -187,9 +190,7 @@ function UserZone() {
                     : null }
                     
                     { loginFail ?           
-                        <div>
-                            <Redirect to='/login' />
-                        </div>  
+                        <Redirect to='/customer-login' />
                     : null }
                 
                 
@@ -204,4 +205,4 @@ function UserZone() {
 
 }
 
-export default UserZone;
+export default CustomerZone;

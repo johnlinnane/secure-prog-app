@@ -1,6 +1,6 @@
 
-const User = require("./../user");
-const Admin = require("./../admin");
+const Customer = require("../db-schemas/customer");
+const Admin = require("../db-schemas/admin");
 const bcrypt = require("bcryptjs");
 const localStrategy = require("passport-local").Strategy;
 
@@ -11,7 +11,7 @@ module.exports = function (passport) {
         // every time we use passport, this will happen
         new localStrategy((username, password, done) => {
             // find the user in the database
-            User.findOne({ username: username }, (err, user) => {
+            Customer.findOne({ username: username }, (err, user) => {
                 if (err) throw err;
                 // if there's no user, null is the error and false is the user
                 if (!user) return done(null, false); 
@@ -20,31 +20,82 @@ module.exports = function (passport) {
                     if (result === true) {
                     return done(null, user);
                     } else {
-                    return done(null, false);
+                    return done(null, false, { message: 'Incorrect password.' });
                     }
                 });
             });
         })
     );
     
+
+    // ******************* SERIALIZE / DESERIALIZE *******************
+
     // store a serialised cookie in the broswer with user id
-    passport.serializeUser((user, cb) => {
-        cb(null, user.id);
+    passport.serializeUser((user, done) => {
+        done(null, user.id);
     });
 
-    // finds user in database from cookie id
-    passport.deserializeUser((id, cb) => {
-        User.findOne({ _id: id }, (err, user) => {
-            // only store username and disregard other credentials
-            // restrict data that's sent back to the client
-            const userInformation = {
-                username: user.username,
-                id: user._id
-            };
-            cb(err, userInformation);
-        });
+    // // finds user in database from cookie id
+    // passport.deserializeUser((id, cb) => {
+    //     Customer.findOne({ _id: id }, (err, user) => {
+    //         // only store username and disregard other credentials
+    //         // restrict data that's sent back to the client
+    //         const userInformation = {
+    //             username: user.username,
+    //             id: user._id
+    //         };
+    //         cb(err, userInformation);
+    //     });
+    // });
+
+
+
+    // passport.serializeUser((user, cb) => {
+    //     if (user instanceof Customer) {
+    //       cb(null, { id: user.id, type: 'Account' });
+    //     } else {
+    //       cb(null, { id: user.id, type: 'User' });
+    //     }
+    //   });
+      
+    passport.deserializeUser((id, done) => {
+        // if (id.type === 'Customer') {
+            console.log('deserialize called')
+          
+        //     // Account.get(id.id).then((account) => cb(null, account));
+            Customer.findOne({ _id: id }, (err, user) => {
+                // only store username and disregard other credentials
+                // restrict data that's sent back to the client
+                if (user) {
+                    console.log('USER.FINDONE FIRED')
+                    console.log('ERR', err)
+                    console.log('USER', user)
+                    
+                    const userInformation = {
+                        username: user.username,
+                        id: user._id
+                    };
+                    
+                    done(err, userInformation);
+                }
+            });
+            
+            Admin.findOne({ _id: id }, (err, user) => {
+                // only store username and disregard other credentials
+                // restrict data that's sent back to the client
+                if (user) {
+                    const adminInformation = {
+                        username: user.username,
+                        id: user._id
+                    };
+                    done(err, adminInformation);
+                }
+            });
     });
 
+
+
+    // *********************************************************
 
 
     passport.use(
@@ -63,29 +114,30 @@ module.exports = function (passport) {
                     if (result === true) {
                     return done(null, admin);
                     } else {
-                    return done(null, false);
+                    // ie. if password is incorrect
+                    return done(null, false, { message: 'Incorrect password.' });
                     }
                 });
             });
         })
     );
     
-    // store a serialised cookie in the broswer with user id
-    passport.serializeUser((admin, cb) => {
-        cb(null, admin.id);
-    });
+    // // store a serialised cookie in the broswer with user id
+    // passport.serializeUser((admin, cb) => {
+    //     cb(null, admin.id);
+    // });
 
-    // finds user in database from cookie id
-    passport.deserializeUser((id, cb) => {
-        Admin.findOne({ _id: id }, (err, admin) => {
-            // only store username and disregard other credentials
-            // restrict data that's sent back to the client
-            const adminInformation = {
-                username: user.username
-            };
-            cb(err, adminInformation);
-        });
-    });
+    // // finds user in database from cookie id
+    // passport.deserializeUser((id, cb) => {
+    //     Admin.findOne({ _id: id }, (err, admin) => {
+    //         // only store username and disregard other credentials
+    //         // restrict data that's sent back to the client
+    //         const adminInformation = {
+    //             username: admin.username
+    //         };
+    //         cb(err, adminInformation);
+    //     });
+    // });
 
 
 

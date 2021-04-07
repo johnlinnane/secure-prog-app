@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 
-function Register() {
+function CustomerRegister() {
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
     const [registerPassword2, setRegisterPassword2] = useState("");
@@ -21,7 +21,7 @@ function Register() {
                 password2: registerPassword2,
             },
             withCredentials: true,
-            url: "/api/user-register",
+            url: "/api/customer-register",
         }).then((res) => {
             setAlert(res.data)
             console.log(alert)
@@ -80,4 +80,4 @@ function Register() {
     );
 }
 
-export default Register;
+export default CustomerRegister;

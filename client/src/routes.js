@@ -2,11 +2,11 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Home from './home';
-import Register from './register';
-import Login from './login';
-import UserZone from './user-zone';
-import AdminLogin from './admin-login';
-import AdminZone from './admin-zone';
+import CustomerRegister from './components/customer-register';
+import CustomerLogin from './components/customer-login';
+import CustomerZone from './components/customer-zone';
+import AdminLogin from './components/admin-login';
+import AdminZone from './components/admin-zone';
 import Logout from './logout';
 
 
@@ -18,9 +18,9 @@ const Routes = () => {
             <Switch>
                 <Route path="/" exact component={Home}/>
                 <Route path="/home" exact component={Home}/>
-                <Route path="/register" exact component={Register}/>
-                <Route path="/login" exact component={Login}/>
-                <Route path="/user-zone" exact component={UserZone}/>
+                <Route path="/register" exact component={CustomerRegister}/>
+                <Route path="/customer-login" exact component={CustomerLogin}/>
+                <Route path="/customer-zone" exact component={CustomerZone}/>
                 <Route path="/admin-zone" exact component={AdminZone}/>
                 <Route path="/admin-login" exact component={AdminLogin}/>
                 <Route path="/logout" exact component={Logout}/>
