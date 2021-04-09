@@ -34,7 +34,7 @@ mongoose.connect(process.env.MONGO_DB, {
     console.log('Mongoose is connected')
 })
 
-
+// console.log('process.env.MONGO_DB: ', process.env.MONGO_DB)
 
 // // ************************* CLOUDINARY MIDDLEWARE *************************
 
@@ -52,7 +52,7 @@ app.use(cors({
 }))
 
 
-console.log('process.env.CLIENT_BASE_URL: ', process.env.CLIENT_BASE_URL)
+// console.log('process.env.CLIENT_BASE_URL: ', process.env.CLIENT_BASE_URL)
 // stores session data on the server side, not on the cookie itself
 // uses memory storage
 app.use(session({
@@ -81,10 +81,13 @@ require('./config/passport-config')(passport);
 
 app.post("/api/customer-login", (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
+    console.log(req.body);
     passport.authenticate("pp-user", (err, user, info) => {
+        // console.log('login fired! user:', user)
         if (err) throw err;
-        if (!user) res.send("No User Exists");
+        if (!user) res.status(403).send("No User Exists");
         else {
+            
             // logIn is a passport method
             req.logIn(user, (err) => {
                 if (err) throw err;
@@ -143,7 +146,7 @@ app.post("/api/customer-register", [
 
 app.get("/api/get-customer", (req, res, next) => {
     // if user is authenticated, req.user will have user info
-    console.log('REQ.USER: ', req.user);
+    // console.log('REQ.USER: ', req.user);
 
     if (req.user) {
         Customer.findOne({ _id: req.user.id }, (err, user) => {
@@ -171,12 +174,12 @@ app.post("/api/admin-login", (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
     passport.authenticate("pp-admin", (err, user, info) => {
         if (err) throw err;
-        if (!user) res.send("No Admin Exists");
+        if (!user) res.status(403).send("No Admin Exists");
         else {
             // logIn is a passport method
             req.logIn(user, (err) => {
                 if (err) throw err;
-                res.send("Admin Successfully Authenticated");
+                res.status(200).send("Admin Successfully Authenticated");
                 // console.log(req.user);
             });
         }
@@ -309,7 +312,7 @@ app.post('/api/upload', async (req, res) => {
             public_id: fileName,
             invalidate: true
         });
-        console.log('UPLOADRESPONSE:', uploadResponse);
+        // console.log('UPLOADRESPONSE:', uploadResponse);
         res.json({ msg: 'Image fetched successfully' });   // might not be json now with axios !!
     } catch (err) {
         console.error(err);

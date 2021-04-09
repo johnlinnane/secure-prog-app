@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-require('dotenv').config({path: '../.env'})
+require('dotenv').config({path: '../../.env'})
 
 
 
@@ -29,7 +29,7 @@ function CustomerRegister() {
     };
 
 
-
+    console.log('ENV: ',process.env.REACT_APP_API_BASE_URL);
 
 
     console.log('ALERT:', alert)

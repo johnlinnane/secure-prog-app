@@ -28,7 +28,7 @@ module.exports = function (passport) {
     );
     
 
-    // ******************* SERIALIZE / DESERIALIZE *******************
+    // ******************* SERIALIZE / DESERIALIZE COOKIES *******************
 
     // store a serialised cookie in the broswer with user id
     passport.serializeUser((user, done) => {

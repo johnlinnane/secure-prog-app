@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-// require('dotenv').config({path: '../../.env'});
-require('dotenv').config();
+require('dotenv').config({path: '../../.env'});
 
 function AdminZone() {
 
@@ -28,7 +27,7 @@ function AdminZone() {
         getAdmin();
     }, []);
 
-
+    console.log('ENV: ',process.env.REACT_APP_API_BASE_URL);
 
 
 
@@ -66,6 +65,10 @@ function AdminZone() {
 
                 { loginFail ?
                     <Redirect to='/admin-login' />
+                : null }
+
+                { customerData ?
+                    <p>this is customer data</p>
                 : null }
 
             </div>

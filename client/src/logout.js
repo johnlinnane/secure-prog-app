@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-require('dotenv').config()
+require('dotenv').config({path: '../.env'})
 
 
 

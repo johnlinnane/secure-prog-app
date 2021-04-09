@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
 
-require('dotenv').config({path: '../.env'})
+require('dotenv').config({path: '../../.env'})
+
 
 function AdminLogin() {
-
 
     const [adminLoginUsername, setAdminLoginUsername] = useState("");
     const [adminLoginPassword, setAdminLoginPassword] = useState("");
@@ -28,7 +28,7 @@ function AdminLogin() {
             }
         });
     };
-    console.log('UUUURL: ', process.env.REACT_APP_API_BASE_URL)
+
 
     if (redirect) {
         return <Redirect to='/admin-zone' />

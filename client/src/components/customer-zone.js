@@ -4,7 +4,7 @@ import axios from 'axios';
 import Alert from '../Alert';
 import { Redirect } from 'react-router-dom';
 
-require('dotenv').config();
+require('dotenv').config({path: '../../.env'});
 
 function CustomerZone() {
     const [userData, setUserData] = useState(null);
@@ -18,7 +18,7 @@ function CustomerZone() {
             url: `${process.env.REACT_APP_API_BASE_URL}/api/get-customer`,
         }).then((res) => {
             setUserData(res.data);
-            console.log('RES.DATA', res.data);
+            // console.log('RES.DATA', res.data);
             if (!res.data) {
                 setLoginFail(true)
             }
@@ -31,14 +31,14 @@ function CustomerZone() {
         getUser();
     }, []);
     
-
+    // console.log('ENV: ',process.env.REACT_APP_API_BASE_URL);
 
 
     // ************************ CLOUDINARY SHOW PROFILE PIC ************************ 
 
     const [imageIds, setImageIds] = useState();
     const loadImages = async (imageId) => {
-        console.log('load images')
+        // console.log('load images')
         try {
             // const res = await fetch('/api/images');
             const res = await axios({
@@ -58,7 +58,7 @@ function CustomerZone() {
         loadImages();
     }, []);
 
-    console.log(imageIds)
+    // console.log(imageIds)
 
     // ************************ CLOUDINARY FILE UPLOAD STUFF ************************ 
     const [fileInputState, setFileInputState] = useState('');
@@ -121,7 +121,7 @@ function CustomerZone() {
 
     // ************************
 
-    console.log('loginfail: ', loginFail)
+    // console.log('loginfail: ', loginFail)
 
     return (
         <div className="page_view">
@@ -190,7 +190,8 @@ function CustomerZone() {
                     : null }
                     
                     { loginFail ?           
-                        <Redirect to='/customer-login' />
+                        // <Redirect to='/customer-login' />
+                        <h1>redirect</h1>
                     : null }
                 
                 
