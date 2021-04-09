@@ -44,6 +44,7 @@ function CustomerZone() {
             const res = await axios({
                 url: `${process.env.REACT_APP_API_BASE_URL}/api/images`,
                 method: 'POST',
+                withCredentials: true
             });
             // const data = await res.json();
             const data = await res.data;
@@ -106,7 +107,8 @@ function CustomerZone() {
                 data: { 
                     image: base64EncodedImage,
                     name: userData.id
-                }
+                },
+                withCredentials: true
             });
 
 
@@ -190,8 +192,7 @@ function CustomerZone() {
                     : null }
                     
                     { loginFail ?           
-                        // <Redirect to='/customer-login' />
-                        <h1>redirect</h1>
+                        <Redirect to='/customer-login' />
                     : null }
                 
                 

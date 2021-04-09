@@ -281,9 +281,12 @@ app.get("/api/get-admin-info", (req, res, next) => {
 
 
 app.get('/api/logout', function(req, res){
-    req.logout();
+    // req.logout();
+    res.clearCookie('connect.sid', { path: '/' })
     res.status(200).send("Logged out successfully");
 });
+
+
 
 // ************************* CLOUDINARY IMAGE DOWNLOAD UPLOAD *************************
 

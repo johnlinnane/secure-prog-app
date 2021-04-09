@@ -39,6 +39,7 @@ function AdminZone() {
             const res = await axios({
                 url: `${process.env.REACT_APP_API_BASE_URL}/api/get-admin-info`,
                 method: 'GET',
+                withCredentials: true
             });
             // const data = await res.json();
             const data = await res.data;
