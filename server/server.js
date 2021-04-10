@@ -85,7 +85,7 @@ app.post("/api/customer-login", (req, res, next) => {
     passport.authenticate("pp-user", (err, user, info) => {
         // console.log('login fired! user:', user)
         if (err) throw err;
-        if (!user) res.status(403).send("No User Exists");
+        if (!user) res.send("No User Exists");
         else {
             
             // logIn is a passport method
@@ -100,47 +100,55 @@ app.post("/api/customer-login", (req, res, next) => {
 
 app.post("/api/customer-register", [
         // https://express-validator.github.io/docs/validation-chain-api.html
-        check('username', 'Username must be at least 3 characters long')
-            .exists()
-            .isLength({ min: 3 }),
-        check('password', 'Password must be at least 8 characters long')
-            .exists()
+        check('username') 
+            
+            .isLength({ min: 3 })
+            .withMessage('Username must be at least 3 characters long')
+            .exists({checkNull: true, checkFalsy: true})
+            .withMessage('Please enter a username'),
+        check('password')
+            .exists({checkNull: true, checkFalsy: true})
+            .withMessage('Please enter a password')
             .isLength({ min: 8 })
-            .custom((pw, { req, loc, path }) => {
-                if (pw !== req.body.password2) {
-                    throw new Error("Passwords don't match");
-                }
-            })
+            .withMessage('Password must be at least 8 characters long'),
+        check('password2', "Passwords don't match")
+            .custom((pass2, { req }) => pass2 === req.body.password)
 
     ], (req, res, next) => {
-
+        // console.log('RRRREQ: ',req)
         const errors = validationResult(req)
-        // check if we have errors
+
+        // if we have errors
         if (!errors.isEmpty()) {
-            console.log('REQ.BODY: ', req.body)
+            console.log('errors is not empty');
+            // console.log('REQ.BODY: ', req.body)
             console.log('ERRORS: ',errors)
             // return res.status(422).jsonp(errors.array())
             const alert = errors.array()
-            console.log('TYPEOF: ', Array.isArray(alert));
-            console.log('ALERT: ', alert)
+            // console.log('TYPEOF: ', Array.isArray(alert));
+            // console.log('ALERT: ', alert)
             res.send(alert)  // was res.json
-        } 
+        
+        } else {
+            console.log('mongoose fired')
+            Customer.findOne({username: req.body.username}, async (err, doc) => {
+                if (err) throw err;
+                if (doc) res.send('Customer Already Exists')
+                // create a new user if no document comes back
+                if (!doc) {
+                    // hash the password
+                    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+                    const newCustomer = new Customer({
+                        username: req.body.username,
+                        password: hashedPassword
+                    });
+                    await newCustomer.save();
+                    res.send('Customer Created')
+                }
+            })
+        }
 
-        Customer.findOne({username: req.body.username}, async (err, doc) => {
-            if (err) throw err;
-            if (doc) res.send('Customer Already Exists')
-            // create a new user if no document comes back
-            if (!doc) {
-                // hash the password
-                const hashedPassword = await bcrypt.hash(req.body.password, 10);
-                const newCustomer = new Customer({
-                    username: req.body.username,
-                    password: hashedPassword
-                });
-                await newCustomer.save();
-                res.send('Customer Created')
-            }
-        })
+
 })
 
 
@@ -174,12 +182,12 @@ app.post("/api/admin-login", (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
     passport.authenticate("pp-admin", (err, user, info) => {
         if (err) throw err;
-        if (!user) res.status(403).send("No Admin Exists");
+        if (!user) res.send("No Admin Exists");
         else {
             // logIn is a passport method
             req.logIn(user, (err) => {
                 if (err) throw err;
-                res.status(200).send("Admin Successfully Authenticated");
+                res.send("Admin Successfully Authenticated");
                 // console.log(req.user);
             });
         }
@@ -188,46 +196,6 @@ app.post("/api/admin-login", (req, res, next) => {
 
 
 
-// app.post("/api/admin-register", [
-//     check('username', 'Username must be at least 3 characters long') // change to body() if using axios !!
-//         .exists()
-//         .isLength({ min: 3 }),
-//     check('password', 'Password must be at least 8 characters long') // change to body() if using axios !!
-//         .exists()
-//         .isLength({ min: 8 })
-//         .custom((pw, { req, loc, path }) => {
-//             if (pw !== req.body.password2) {
-//                 throw new Error("Passwords don't match");
-//             }
-//         })
-
-// ], (req, res, next) => {
-
-//     const errors = validationResult(req)
-//     // check if we have errors
-//     if (!errors.isEmpty()) {
-//         console.log(errors)
-//         // return res.status(422).jsonp(errors.array())
-//         const alert = errors.array()
-//         return res.json(alert) // might not be json now with axios !!
-//     } 
-
-//     Admin.findOne({username: req.body.username}, async (err, doc) => {
-//         if (err) throw err;
-//         if (doc) res.send('Admin Already Exists')
-//         // create a new user if no document comes back
-//         if (!doc) {
-//             // hash the password
-//             const hashedPassword = await bcrypt.hash(req.body.password, 10);
-//             const newAdmin = new Admin({
-//                 username: req.body.username,
-//                 password: hashedPassword
-//             });
-//             await newAdmin.save();
-//             res.send('Admin Created')
-//         }
-//     })
-// })
 
 app.get("/api/get-admin", (req, res, next) => {
     // if user is authenticated, req.user will have user info
@@ -281,7 +249,7 @@ app.get("/api/get-admin-info", (req, res, next) => {
 
 
 app.get('/api/logout', function(req, res){
-    // req.logout();
+    req.logout();
     res.clearCookie('connect.sid', { path: '/' })
     res.status(200).send("Logged out successfully");
 });
@@ -291,8 +259,11 @@ app.get('/api/logout', function(req, res){
 // ************************* CLOUDINARY IMAGE DOWNLOAD UPLOAD *************************
 
 app.post('/api/images', async (req, res) => {
+// app.post('/api/images', (req, res) => {
+    
     if (req.user && req.user.id) {
         const { resources } = await cloudinary.search
+        // const { resources } = cloudinary.search
             .expression('folder:sec-prog-app AND ' + req.user.id)
             .sort_by('public_id', 'desc')
             .max_results(1)

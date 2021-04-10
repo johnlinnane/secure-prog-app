@@ -10,6 +10,7 @@ function CustomerLogin() {
     const [loginUsername, setLoginUsername] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
     const [redirect, setRedirect] = useState("");
+    const [loginFail, setLoginFail] = useState(null);
 
     const login = () => {
         axios({
@@ -23,12 +24,14 @@ function CustomerLogin() {
         }).then((res) => {
             // console.log(res.status);
             console.log('CUSTOMER LOGIN RES.DATA: ',res.data);
-            if (res.status === 200) {
+            if (res.data === 'User Successfully Authenticated') {
                 setRedirect(true)
+            }
+            if (res.data === 'No User Exists') {
+                setLoginFail(true)
             }
         });
     };
-
 
     if (redirect) {
         return <Redirect to='/customer-zone' />
@@ -37,7 +40,17 @@ function CustomerLogin() {
     return (
         <div className="page_view">
             <div className="centre_text form_container">
+                
                 <h1>Customer Login</h1>
+
+
+                { loginFail ?
+                    <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                        Incorrect credentials!
+                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                : null }
+
                 <div className="form_element">
                     <input
                         placeholder="Username"

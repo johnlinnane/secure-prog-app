@@ -37,22 +37,40 @@ function CustomerZone() {
     // ************************ CLOUDINARY SHOW PROFILE PIC ************************ 
 
     const [imageIds, setImageIds] = useState();
-    const loadImages = async (imageId) => {
-        // console.log('load images')
-        try {
-            // const res = await fetch('/api/images');
-            const res = await axios({
-                url: `${process.env.REACT_APP_API_BASE_URL}/api/images`,
-                method: 'POST',
-                withCredentials: true
-            });
-            // const data = await res.json();
-            const data = await res.data;
-            setImageIds(data);
-        } catch (err) {
-            console.error(err);
-        }
+
+
+    // const loadImages =  (imageId) => {
+    //     try {
+    //         const res = await axios({
+    //             url: `${process.env.REACT_APP_API_BASE_URL}/api/images`,
+    //             method: 'POST',
+    //             withCredentials: true
+    //         });
+    //         const data = await res.data;
+    //         setImageIds(data);
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
+
+
+
+    const loadImages =  () => {
+        
+        axios({
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/images`,
+            method: 'POST',
+            withCredentials: true
+        }).then( res => {
+            let data = res.data;
+            if (data.length) {
+                setImageIds(data);
+            }
+        }).catch( err => console.error(err))
     };
+
+
+    console.log('imageIds: ', imageIds);
 
 
     useEffect(() => {
@@ -140,7 +158,7 @@ function CustomerZone() {
                         <div className="user_section">
                             Your Profile Picture:
                             <div>
-                                {imageIds &&
+                                {imageIds ?
                                     imageIds.map((imageId, index) => (
                                         <Image
                                             key={index}
@@ -149,7 +167,10 @@ function CustomerZone() {
                                             width="300"
                                             crop="scale"
                                         />
-                                    ))}
+                                    )) 
+                                : 
+                                    <img src="/assets/images/app/profilepic.jpeg" width="300ogin" />
+                                }
                             </div>
                         </div>
 

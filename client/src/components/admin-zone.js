@@ -9,6 +9,8 @@ function AdminZone() {
     const [adminData, setAdminData] = useState(null);
     const [loginFail, setLoginFail] = useState(null);
 
+    const [custData, setCustData] = useState(null);
+
     const getAdmin = () => {
         axios({
             method: "GET",
@@ -27,13 +29,10 @@ function AdminZone() {
         getAdmin();
     }, []);
 
-    console.log('ENV: ',process.env.REACT_APP_API_BASE_URL);
 
 
 
-    const [customerData, setCustomerData] = useState(null);
     const getCustomerData = async (imageId) => {
-        console.log('load images')
         try {
             // const res = await fetch('/api/images');
             const res = await axios({
@@ -43,8 +42,8 @@ function AdminZone() {
             });
             // const data = await res.json();
             const data = await res.data;
-            console.log('CUSTOMER DATA: ', data)
-            setCustomerData(data);
+            setCustData(data);
+            console.log('CUSTOMER DATA: ', custData)
         } catch (err) {
             console.error(err);
         }
@@ -55,21 +54,44 @@ function AdminZone() {
         getCustomerData();
     }, []);
 
-
+    console.log('ALERT: ', alert)
 
     return (
         <div className="page_view">
             <div className="centre_text form_container">
                 {adminData ?
-                    <h1>Admin is logged in</h1>
+                    <div>
+                        <p>Logged in as <b>{adminData.username}</b></p>
+                        <h1>Customer Information</h1>
+                    </div>
                 : null }
 
                 { loginFail ?
                     <Redirect to='/admin-login' />
                 : null }
 
-                { customerData ?
-                    <p>this is customer data</p>
+                { custData ?
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Username</th>
+                                <th scope="col">ID</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            { custData.map( (cust, i) => (
+                                <tr key={i}>
+                                    <td>{cust.username}</td>
+                                    <td>{cust._id}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+
+
                 : null }
 
             </div>

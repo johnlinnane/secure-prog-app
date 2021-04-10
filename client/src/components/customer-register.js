@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 require('dotenv').config({path: '../../.env'})
 
@@ -11,8 +12,10 @@ function CustomerRegister() {
     const [registerPassword2, setRegisterPassword2] = useState("");
 
     const [alert, setAlert] = useState("");
+    const [redirect, setRedirect] = useState(null);
 
     const register = () => {
+        setRedirect(false)
         axios({
             method: "POST",
             data: {
@@ -23,58 +26,84 @@ function CustomerRegister() {
             withCredentials: true,
             url: `${process.env.REACT_APP_API_BASE_URL}/api/customer-register`,
         }).then((res) => {
-            setAlert(res.data)
-            console.log(alert)
+            if (Array.isArray(res.data)) {
+                setAlert(res.data)
+            }
+
+            if (res.data === 'Customer Created') {
+                setRedirect(true)
+            }
+            
+            console.log('RES.DATA: ',res.data)
         });
     };
 
 
-    console.log('ENV: ',process.env.REACT_APP_API_BASE_URL);
 
 
     console.log('ALERT:', alert)
+    console.log('REDIRECT:', redirect)
+
+
 
 
     return (
         <div className="page_view">
             <div className="centre_text form_container">
-                <h1>User Register</h1>
 
-                {alert ?
+
+                { redirect ?
                     <div>
-                        {alert.map( (al, i) => (
-                            <div className="alert alert-warning alert-dismissible fade show" role="alert" key={i}>
-                                {al.msg}
-                                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        ))}
+                        <h1>Customer Created!</h1>
+                        <Link to="/customer-login">
+                            <button type="button" >Login</button>  
+                        </Link>
                     </div>
-                : null}
+                    
+                :
+
+                    <div>
+                        <h1>Customer Register</h1>
+
+                        
+                        { alert ?
+                            <div>
+                                {alert.map( (al, i) => (
+                                    <div className="alert alert-warning alert-dismissible fade show" role="alert" key={i}>
+                                        {al.msg}
+                                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                ))}
+                            </div>
+                        : null }
+                    
 
 
 
-                <div className="form_element">
-                    <input
-                        placeholder="Username"
-                        onChange={(e) => setRegisterUsername(e.target.value)}
-                    />
-                </div>
-                <div className="form_element">
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        onChange={(e) => setRegisterPassword(e.target.value)}
-                    />
-                </div>
+                        <div className="form_element">
+                            <input
+                                placeholder="Username"
+                                onChange={(e) => setRegisterUsername(e.target.value)}
+                            />
+                        </div>
+                        <div className="form_element">
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                onChange={(e) => setRegisterPassword(e.target.value)}
+                            />
+                        </div>
 
-                <div className="form_element">
-                    <input
-                        type="password"
-                        placeholder="Confirm Password"
-                        onChange={(e) => setRegisterPassword2(e.target.value)}
-                    />
-                </div>
-                <button onClick={register}>Submit</button>
+                        <div className="form_element">
+                            <input
+                                type="password"
+                                placeholder="Confirm Password"
+                                onChange={(e) => setRegisterPassword2(e.target.value)}
+                            />
+                        </div>
+                        <button onClick={register}>Submit</button>
+                    </div>
+                }
             </div>
         </div>
     );
