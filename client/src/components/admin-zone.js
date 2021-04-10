@@ -72,7 +72,7 @@ function AdminZone() {
 
                 { custData ?
 
-                    <table class="table">
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">Username</th>

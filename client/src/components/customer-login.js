@@ -13,6 +13,7 @@ function CustomerLogin() {
     const [loginFail, setLoginFail] = useState(null);
 
     const login = () => {
+        console.log('STUFF:', loginUsername, loginPassword)
         axios({
             method: "POST",
             data: {
