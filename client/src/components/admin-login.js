@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
 
+const Recaptcha = require('react-recaptcha');
+
 require('dotenv').config({path: '../../.env'})
 
 
@@ -13,7 +15,7 @@ function AdminLogin() {
     const [redirect, setRedirect] = useState("");
     const [loginFail, setLoginFail] = useState(null);
 
-
+    const [captchaSuccess, setCaptchaSuccess] = useState(false);
     
 
     const adminLogin = () => {
@@ -49,6 +51,10 @@ function AdminLogin() {
         return <Redirect to='/admin-zone' />
     }
 
+    const captchaClick = () => {
+        setCaptchaSuccess(true);
+    }
+    
 
     return (
         <div className="page_view">
@@ -75,7 +81,19 @@ function AdminLogin() {
                         onChange={(e) => setAdminLoginPassword(e.target.value)}
                     />
                 </div>
-                <button onClick={adminLogin}>Submit</button>
+
+                <div className="form_element recaptcha_wrapper">
+                    <Recaptcha 
+                        sitekey="6LeIcqUaAAAAAIXxHYmqMHdthJbLZ1ZBL-opaQZg" 
+                        render="explicit" 
+                        verifyCallback={captchaClick} 
+                    />
+                </div>
+
+                { captchaSuccess ?
+                    <button className="form_element" onClick={adminLogin}>Submit</button>
+                : null }
+
 
             </div>
         </div>

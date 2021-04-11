@@ -14,6 +14,8 @@ function CustomerLogin() {
     const [loginPassword, setLoginPassword] = useState("");
     const [redirect, setRedirect] = useState("");
     const [loginFail, setLoginFail] = useState(null);
+    const [captchaSuccess, setCaptchaSuccess] = useState(false);
+    
 
 
     const login = () => {
@@ -42,11 +44,12 @@ function CustomerLogin() {
         return <Redirect to='/customer-zone' />
     }
 
-    const captchaClick = () => {
-        console.log('CLIKT')
-    }
     
 
+    const captchaClick = () => {
+        setCaptchaSuccess(true);
+    }
+    
     return (
         <div className="page_view">
             <div className="centre_text form_container">
@@ -74,16 +77,20 @@ function CustomerLogin() {
                         onChange={(e) => setLoginPassword(e.target.value)}
                     />
                 </div>
-                <button onClick={login}>Submit</button>
+                
+                <div className="form_element recaptcha_wrapper">
+                    <Recaptcha 
+                        sitekey="6LeIcqUaAAAAAIXxHYmqMHdthJbLZ1ZBL-opaQZg" 
+                        render="explicit" 
+                        verifyCallback={captchaClick} 
+                    />
+                </div>
+                
+                { captchaSuccess ?
+                    <button className="form_element" onClick={login}>Submit</button>
+                : null }
+                
 
-                <Recaptcha 
-                    sitekey="6LeIcqUaAAAAAIXxHYmqMHdthJbLZ1ZBL" 
-                    render="explicit" 
-                    onloadCallback={console.log('captcha loadeded')} 
-                    verifyCallback={captchaClick} 
-                />
-
-                {/* <div className="g-recaptcha" data-sitekey="6LeIcqUaAAAAAIXxHYmqMHdthJbLZ1ZBL-opaQZg" data-callback={captchaClick()}></div> */}
 
             </div>
         </div>

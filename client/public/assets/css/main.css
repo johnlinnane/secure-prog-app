@@ -122,3 +122,10 @@ button:hover {
 .user_section {
     margin-bottom: 3rem;
 }
+
+
+.recaptcha_wrapper {
+    padding-top: 2rem;
+    margin: 0 auto;
+    display: inline-block;
+}

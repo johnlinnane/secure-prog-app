@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+const Recaptcha = require('react-recaptcha');
+
 require('dotenv').config({path: '../../.env'})
 
 
@@ -13,6 +15,8 @@ function CustomerRegister() {
 
     const [alert, setAlert] = useState("");
     const [redirect, setRedirect] = useState(null);
+
+    const [captchaSuccess, setCaptchaSuccess] = useState(false);
 
     const register = () => {
         setRedirect(false)
@@ -41,10 +45,13 @@ function CustomerRegister() {
 
 
 
-    console.log('ALERT:', alert)
-    console.log('REDIRECT:', redirect)
+    // console.log('ALERT:', alert)
+    // console.log('REDIRECT:', redirect)
 
-
+    const captchaClick = () => {
+        setCaptchaSuccess(true);
+    }
+    
 
 
     return (
@@ -101,7 +108,19 @@ function CustomerRegister() {
                                 onChange={(e) => setRegisterPassword2(e.target.value)}
                             />
                         </div>
-                        <button onClick={register}>Submit</button>
+
+                        <div className="form_element recaptcha_wrapper">
+                            <Recaptcha 
+                                sitekey="6LeIcqUaAAAAAIXxHYmqMHdthJbLZ1ZBL-opaQZg" 
+                                render="explicit" 
+                                verifyCallback={captchaClick} 
+                            />
+                        </div>
+
+                        { captchaSuccess ?
+                            <button className="form_element" onClick={register}>Submit</button>
+                        : null }
+
                     </div>
                 }
             </div>
