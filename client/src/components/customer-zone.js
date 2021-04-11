@@ -169,7 +169,7 @@ function CustomerZone() {
                                         />
                                     )) 
                                 : 
-                                    <img src="/assets/images/app/profilepic.jpeg" width="300ogin" />
+                                    <img src="/assets/images/app/profilepic.jpeg" width="300" alt="default profile" />
                                 }
                             </div>
                         </div>

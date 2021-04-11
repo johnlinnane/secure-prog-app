@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
 
+const Recaptcha = require('react-recaptcha');
+
+
 require('dotenv').config({path: '../../.env'})
 
 
@@ -11,6 +14,7 @@ function CustomerLogin() {
     const [loginPassword, setLoginPassword] = useState("");
     const [redirect, setRedirect] = useState("");
     const [loginFail, setLoginFail] = useState(null);
+
 
     const login = () => {
         console.log('STUFF:', loginUsername, loginPassword)
@@ -37,6 +41,11 @@ function CustomerLogin() {
     if (redirect) {
         return <Redirect to='/customer-zone' />
     }
+
+    const captchaClick = () => {
+        console.log('CLIKT')
+    }
+    
 
     return (
         <div className="page_view">
@@ -66,6 +75,15 @@ function CustomerLogin() {
                     />
                 </div>
                 <button onClick={login}>Submit</button>
+
+                <Recaptcha 
+                    sitekey="6LeIcqUaAAAAAIXxHYmqMHdthJbLZ1ZBL" 
+                    render="explicit" 
+                    onloadCallback={console.log('captcha loadeded')} 
+                    verifyCallback={captchaClick} 
+                />
+
+                {/* <div className="g-recaptcha" data-sitekey="6LeIcqUaAAAAAIXxHYmqMHdthJbLZ1ZBL-opaQZg" data-callback={captchaClick()}></div> */}
 
             </div>
         </div>
