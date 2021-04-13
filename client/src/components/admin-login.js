@@ -26,6 +26,7 @@ function AdminLogin() {
                 password: adminLoginPassword,
             },
             withCredentials: true,
+            headers: {'Access-Control-Allow-Origin': 'https://sec-prog-api.lindev.ie'},
             url: `${process.env.REACT_APP_API_BASE_URL}/api/admin-login`,
         }).then((res) => {
             console.log(res.status);
