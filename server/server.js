@@ -296,10 +296,27 @@ app.post('/api/upload', async (req, res) => {
 
 
 
-// ************************* SERVE *************************
+// ************************* SERVE HTTP *************************
 
-const PORT = 5001;
+// const PORT = 5001;
 
-app.listen(PORT, () => {
-    console.log('Server Has Started on Port ' + PORT)
+// app.listen(PORT, () => {
+//     console.log('Server Has Started on Port ' + PORT)
+// })
+
+// ************************* SERVE HTTPS *************************
+
+const port = 5001;
+console.log('process.env.SSL_KEY: ',process.env.SSL_KEY)
+
+const options = {
+    key: fs.readFileSync(process.env.SSL_KEY),
+    cert: fs.readFileSync(process.env.SSL_CERT)
+  };
+
+// const server = http.createServer(app);
+const httpsServer = https.createServer(options, app);
+
+httpsServer.listen(port, () => {
+    console.log(`HTTPS SERVER RUNNING : port ${port}`)
 })
