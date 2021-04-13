@@ -47,9 +47,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // ************************* MIDDLEWARE *************************
 
 app.use(cors({
-    origin: [
-        process.env.CLIENT_BASE_URL
-    ],
+    origin: process.env.CLIENT_BASE_URL,
     credentials: true
 }))
 
