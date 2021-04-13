@@ -14,6 +14,7 @@ const session = require('express-session')
 // const bodyParser = require('body-parser') //deprecated
 const { check, body,  validationResult } = require('express-validator')
 const { cloudinary } = require('./config/cloudinary-config');
+const fs = require('fs');
 
 const app = express()
 const Customer = require('./db-schemas/customer')
