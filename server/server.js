@@ -46,17 +46,13 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // ************************* MIDDLEWARE *************************
 
-// app.use(cors({
-//     // origin: process.env.CLIENT_BASE_URL,
-//     origin: 'https://sec-prog-app.lindev.ie',
-//     credentials: true
-// }))
+app.use(cors({
+    // origin: process.env.CLIENT_BASE_URL,
+    origin: 'https://sec-prog-app.lindev.ie',
+    credentials: true
+}))
 
-app.all('/*', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://sec-prog-app.lindev.ie");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
-});
+
 // console.log('process.env.CLIENT_BASE_URL: ', process.env.CLIENT_BASE_URL)
 // stores session data on the server side, not on the cookie itself
 // uses memory storage
