@@ -27,17 +27,6 @@ require('dotenv').config({path: './.env'})
 
 
 
-// ************************* CONNECT TO MONGO *************************
-
-mongoose.connect(process.env.MONGO_DB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}, () => {
-    console.log('Mongoose is connected')
-})
-
-// console.log('process.env.MONGO_DB: ', process.env.MONGO_DB)
-
 // // ************************* CLOUDINARY MIDDLEWARE *************************
 
 app.use(express.static('public'));
@@ -73,6 +62,17 @@ require('./config/passport-config')(passport);
 
 
 
+
+// ************************* CONNECT TO MONGO *************************
+
+mongoose.connect(process.env.MONGO_DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}, () => {
+    console.log('Mongoose is connected')
+})
+
+console.log('process.env.MONGO_DB: ', process.env.MONGO_DB)
 
 // ************************* API ROUTES *************************
 
