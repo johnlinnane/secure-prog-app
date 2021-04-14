@@ -11,19 +11,21 @@ module.exports = function (passport) {
         // every time we use passport, this will happen
         new localStrategy((username, password, done) => {
             // find the user in the database
-            Customer.findOne({ username: username }, (err, user) => {
-                if (err) throw err;
-                // if there's no user, null is the error and false is the user
-                if (!user) return done(null, false); 
-                bcrypt.compare(password, user.password, (err, result) => {
-                    if (err) throw err;
-                    if (result === true) {
-                    return done(null, user);
-                    } else {
-                    return done(null, false, { message: 'Incorrect password.' });
-                    }
-                });
-            });
+
+            // Customer.findOne({ username: username }, (err, user) => {
+            //     if (err) throw err;
+            //     // if there's no user, null is the error and false is the user
+            //     if (!user) return done(null, false); 
+            //     bcrypt.compare(password, user.password, (err, result) => {
+            //         if (err) throw err;
+            //         if (result === true) {
+            //         return done(null, user);
+            //         } else {
+            //         return done(null, false, { message: 'Incorrect password.' });
+            //         }
+            //     });
+            // });
+            console.log('mongoooooose')
         })
     );
     
