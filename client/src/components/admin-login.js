@@ -51,7 +51,8 @@ function AdminLogin() {
         return <Redirect to='/admin-zone' />
     }
 
-    const captchaClick = () => {
+    const captchaClick = (response) => {
+        console.log(response)
         setCaptchaSuccess(true);
     }
     

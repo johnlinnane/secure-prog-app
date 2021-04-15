@@ -131,3 +131,7 @@ button:hover {
     margin: 0 auto;
     display: inline-block;
 }
+
+.home_heading {
+    margin-bottom: 2rem;
+}
