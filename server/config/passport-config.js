@@ -25,7 +25,7 @@ module.exports = function (passport) {
                     }
                 });
             });
-            console.log('mongoooooose')
+            console.log('mongoose')
         })
     );
     

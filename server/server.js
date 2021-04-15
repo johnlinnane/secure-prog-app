@@ -16,6 +16,7 @@ const { check, body,  validationResult } = require('express-validator')
 const { cloudinary } = require('./config/cloudinary-config');
 const fs = require('fs');
 const https = require('https');
+const axios = require('axios');
 
 const app = express()
 const Customer = require('./db-schemas/customer')
@@ -35,9 +36,11 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // ************************* MIDDLEWARE *************************
 
+
+console.log('process.env.CLIENT_BASE_URL', process.env.CLIENT_BASE_URL)
+
 app.use(cors({
-    // origin: process.env.CLIENT_BASE_URL,
-    origin: 'https://sec-prog-app.lindev.ie',
+    origin: process.env.CLIENT_BASE_URL,
     credentials: true
 }))
 
@@ -79,13 +82,35 @@ mongoose.connect(process.env.MONGO_DB, {
 
 // ************************* API ROUTES *************************
 
+async function validateHuman(token) {
+    let secret = process.env.RECAPTCHA_SECRET_KEY;
+    // const secret = '6Lf6RKsaAAAAAFCZznVwocILK6HbGBZIqTAKV2tp';
+    console.log(' process.env.RECAPTCHA_SECRET_KEY: ', secret);
+    const response = await axios({
+        url: `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`,
+        method: 'POST'
+    })
 
+    const data = await response;
+
+    console.log('data success: ', data.data.success);
+    return data.data.success;
+    // return false;
+}
 
 // ************ CUSTOMER *********
 
-app.post("/api/customer-login", (req, res, next) => {
+app.post("/api/customer-login", async (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
     console.log(req.body);
+
+    const human = await validateHuman(req.body.token);
+
+    if (!human) {
+        res.status(400).send('Recaptcha identifies user as a bot.')
+        return;
+    }
+
     passport.authenticate("pp-user", (err, user, info) => {
         // console.log('login fired! user:', user)
         if (err) throw err;
@@ -131,6 +156,7 @@ app.post("/api/customer-register", [
             const alert = errors.array()
             // console.log('TYPEOF: ', Array.isArray(alert));
             // console.log('ALERT: ', alert)
+            console.log('ALERT: ',alert)
             res.send(alert)  // was res.json
         
         } else {

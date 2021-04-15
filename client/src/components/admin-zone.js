@@ -52,7 +52,7 @@ function AdminZone() {
 
     useEffect(() => {
         getCustomerData();
-    }, []);
+    });
 
     console.log('ALERT: ', alert)
 

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Recaptcha = require('react-recaptcha');
+const ReCAPTCHA = require('react-google-recaptcha').default;
 
 require('dotenv').config({path: '../../.env'})
 
@@ -16,16 +16,23 @@ function CustomerRegister() {
     const [alert, setAlert] = useState("");
     const [redirect, setRedirect] = useState(null);
 
-    const [captchaSuccess, setCaptchaSuccess] = useState(false);
+    // const [captchaSuccess, setCaptchaSuccess] = useState(false);
 
-    const register = () => {
+    const reRef = useRef();
+
+    const register = async () => {
         setRedirect(false)
+
+        const token = await reRef.current.executeAsync();
+        reRef.current.reset();
+
         axios({
             method: "POST",
             data: {
                 username: registerUsername,
                 password: registerPassword,
                 password2: registerPassword2,
+                token
             },
             withCredentials: true,
             url: `${process.env.REACT_APP_API_BASE_URL}/api/customer-register`,
@@ -48,9 +55,6 @@ function CustomerRegister() {
     // console.log('ALERT:', alert)
     // console.log('REDIRECT:', redirect)
 
-    const captchaClick = () => {
-        setCaptchaSuccess(true);
-    }
     
 
 
@@ -110,16 +114,14 @@ function CustomerRegister() {
                         </div>
 
                         <div className="form_element recaptcha_wrapper">
-                            <Recaptcha 
-                                sitekey="6LeIcqUaAAAAAIXxHYmqMHdthJbLZ1ZBL-opaQZg" 
-                                render="explicit" 
-                                verifyCallback={captchaClick} 
+                            <ReCAPTCHA 
+                                sitekey="6Lf6RKsaAAAAAPh9-L1i6VVsMO2NDHgMxEqYH40R"
+                                size="invisible"
+                                ref={reRef} 
                             />
                         </div>
 
-                        { captchaSuccess ?
-                            <button className="form_element" onClick={register}>Submit</button>
-                        : null }
+                        <button className="form_element" onClick={register}>Submit</button>
 
                     </div>
                 }
