@@ -16,6 +16,8 @@
 # config
 .env
 /server/ssl
+cert.pem
+key.pem
 
 # misc
 .DS_Store
