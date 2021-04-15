@@ -81,7 +81,8 @@ function AdminLogin() {
 
                 <div className="form_element recaptcha_wrapper">
                     <ReCAPTCHA 
-                            sitekey="6Lf6RKsaAAAAAPh9-L1i6VVsMO2NDHgMxEqYH40R"
+                            // sitekey="6Lf6RKsaAAAAAPh9-L1i6VVsMO2NDHgMxEqYH40R"
+                            sitekey={process.env.REACT_APP_CAPTCHA_SITE_KEY}
                             size="invisible"
                             ref={reRef} 
                     />
