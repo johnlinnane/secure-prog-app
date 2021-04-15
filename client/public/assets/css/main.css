@@ -107,6 +107,8 @@ button:hover {
 
 .card {
     width: 18rem;
+    border: 1px solid;
+    border-color: #a0a1a3 !important;
 }
 
 .btn_dark {

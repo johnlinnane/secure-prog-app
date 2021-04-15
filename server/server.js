@@ -68,11 +68,14 @@ require('./config/passport-config')(passport);
 mongoose.connect(process.env.MONGO_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-}, () => {
+}, (err) => {
+    if (err) throw console.error(err);
     console.log('Mongoose is connected')
 })
 
-console.log('process.env.MONGO_DB: ', process.env.MONGO_DB)
+
+
+
 
 // ************************* API ROUTES *************************
 
