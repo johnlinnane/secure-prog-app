@@ -37,7 +37,6 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // ************************* MIDDLEWARE *************************
 
 
-console.log('process.env.CLIENT_BASE_URL', process.env.CLIENT_BASE_URL)
 
 app.use(cors({
     origin: process.env.CLIENT_BASE_URL,
@@ -45,7 +44,6 @@ app.use(cors({
 }))
 
 
-// console.log('process.env.CLIENT_BASE_URL: ', process.env.CLIENT_BASE_URL)
 // stores session data on the server side, not on the cookie itself
 // uses memory storage
 app.use(session({
@@ -85,7 +83,6 @@ mongoose.connect(process.env.MONGO_DB, {
 async function validateHuman(token) {
     let secret = process.env.RECAPTCHA_SECRET_KEY;
     // const secret = '6Lf6RKsaAAAAAFCZznVwocILK6HbGBZIqTAKV2tp';
-    console.log(' process.env.RECAPTCHA_SECRET_KEY: ', secret);
     const response = await axios({
         url: `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`,
         method: 'POST'
@@ -93,7 +90,6 @@ async function validateHuman(token) {
 
     const data = await response;
 
-    console.log('data success: ', data.data.success);
     return data.data.success;
     // return false;
 }
@@ -102,7 +98,6 @@ async function validateHuman(token) {
 
 app.post("/api/customer-login", async (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
-    console.log(req.body);
 
     const human = await validateHuman(req.body.token);
 
@@ -112,7 +107,6 @@ app.post("/api/customer-login", async (req, res, next) => {
     }
 
     passport.authenticate("pp-user", (err, user, info) => {
-        // console.log('login fired! user:', user)
         if (err) throw err;
         if (!user) res.send("No User Exists");
         else {
@@ -144,23 +138,15 @@ app.post("/api/customer-register", [
             .custom((pass2, { req }) => pass2 === req.body.password)
 
     ], (req, res, next) => {
-        // console.log('RRRREQ: ',req)
         const errors = validationResult(req)
 
         // if we have errors
         if (!errors.isEmpty()) {
-            console.log('errors is not empty');
-            // console.log('REQ.BODY: ', req.body)
-            console.log('ERRORS: ',errors)
             // return res.status(422).jsonp(errors.array())
             const alert = errors.array()
-            // console.log('TYPEOF: ', Array.isArray(alert));
-            // console.log('ALERT: ', alert)
-            console.log('ALERT: ',alert)
             res.send(alert)  // was res.json
         
         } else {
-            console.log('mongoose fired')
             Customer.findOne({username: req.body.username}, async (err, doc) => {
                 if (err) throw err;
                 if (doc) res.send('Customer Already Exists')
@@ -184,7 +170,6 @@ app.post("/api/customer-register", [
 
 app.get("/api/get-customer", (req, res, next) => {
     // if user is authenticated, req.user will have user info
-    // console.log('REQ.USER: ', req.user);
 
     if (req.user) {
         Customer.findOne({ _id: req.user.id }, (err, user) => {
@@ -218,7 +203,6 @@ app.post("/api/admin-login", (req, res, next) => {
             req.logIn(user, (err) => {
                 if (err) throw err;
                 res.send("Admin Successfully Authenticated");
-                // console.log(req.user);
             });
         }
       })(req, res, next);
@@ -229,7 +213,6 @@ app.post("/api/admin-login", (req, res, next) => {
 
 app.get("/api/get-admin", (req, res, next) => {
     // if user is authenticated, req.user will have user info
-    console.log('REQ.USER: ',req.user);
 
     if (req.user) {
         Admin.findOne({ _id: req.user.id }, (err, user) => {
@@ -249,7 +232,6 @@ app.get("/api/get-admin", (req, res, next) => {
 
 app.get("/api/get-admin-info", (req, res, next) => {
     // if user is authenticated, req.user will have user info
-    console.log('REQ.USER: ',req.user);
 
     if (req.user) {
         Admin.findOne({ _id: req.user.id }, (err, user) => {
@@ -257,7 +239,6 @@ app.get("/api/get-admin-info", (req, res, next) => {
                 Customer.find({}, (error, data) => {
                     if (error) res.send('Could not find customer data');
                     if (data) {
-                        console.log('THE DATA IS: ', data);
                         res.send(data);
                     } else {
                         console.log('NO DATA')
@@ -307,7 +288,6 @@ app.post('/api/images', async (req, res) => {
 
 app.post('/api/upload', async (req, res) => {
     try {
-        // console.log(req.body.image)
         const fileStr = req.body.image;
         const fileName = req.body.name
 
@@ -316,7 +296,6 @@ app.post('/api/upload', async (req, res) => {
             public_id: fileName,
             invalidate: true
         });
-        // console.log('UPLOADRESPONSE:', uploadResponse);
         res.json({ msg: 'Image fetched successfully' });   // might not be json now with axios !!
     } catch (err) {
         console.error(err);
@@ -337,7 +316,6 @@ app.post('/api/upload', async (req, res) => {
 // ************************* SERVE HTTPS *************************
 
 const port = 5001;
-console.log('process.env.SSL_KEY: ',process.env.SSL_KEY)
 
 const options = {
     key: fs.readFileSync(process.env.SSL_KEY),

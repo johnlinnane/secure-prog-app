@@ -24,12 +24,10 @@ function AdminRegister() {
             url: `${process.env.REACT_APP_API_BASE_URL}/api/admin-register`,
         }).then((res) => {
             setAlert(res.data)
-            console.log(alert)
         });
     };
 
 
-    console.log('ALERT: ', alert)
 
 
     return (

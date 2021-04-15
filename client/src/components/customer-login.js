@@ -28,9 +28,7 @@ function CustomerLogin() {
 
         const token = await reRef.current.executeAsync();
         reRef.current.reset();
-        console.log('token: ', token)
 
-        console.log('STUFF:', loginUsername, loginPassword)
         axios({
             method: "POST",
             data: {
@@ -41,8 +39,6 @@ function CustomerLogin() {
             withCredentials: true,
             url: `${process.env.REACT_APP_API_BASE_URL}/api/customer-login`,
         }).then((res) => {
-            // console.log(res.status);
-            console.log('CUSTOMER LOGIN RES.DATA: ',res.data);
             if (res.data === 'User Successfully Authenticated') {
                 setRedirect(true)
             }

@@ -10,7 +10,6 @@ function Logout() {
     const [redirect, setRedirect] = useState("");
 
     const logout = () => {
-        console.log('Hi')
 
 
         axios({
@@ -18,7 +17,6 @@ function Logout() {
             url: `${process.env.REACT_APP_API_BASE_URL}/api/logout`,
             withCredentials: true
         }).then((res) => {
-            console.log(res.status)
             if (res.status === 200) {
                 setRedirect(true)
             }

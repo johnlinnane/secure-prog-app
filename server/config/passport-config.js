@@ -25,7 +25,6 @@ module.exports = function (passport) {
                     }
                 });
             });
-            console.log('mongoose')
         })
     );
     
@@ -37,41 +36,15 @@ module.exports = function (passport) {
         done(null, user.id);
     });
 
-    // // finds user in database from cookie id
-    // passport.deserializeUser((id, cb) => {
-    //     Customer.findOne({ _id: id }, (err, user) => {
-    //         // only store username and disregard other credentials
-    //         // restrict data that's sent back to the client
-    //         const userInformation = {
-    //             username: user.username,
-    //             id: user._id
-    //         };
-    //         cb(err, userInformation);
-    //     });
-    // });
-
-
-
-    // passport.serializeUser((user, cb) => {
-    //     if (user instanceof Customer) {
-    //       cb(null, { id: user.id, type: 'Account' });
-    //     } else {
-    //       cb(null, { id: user.id, type: 'User' });
-    //     }
-    //   });
       
     passport.deserializeUser((id, done) => {
         // if (id.type === 'Customer') {
-            console.log('deserialize called')
           
         //     // Account.get(id.id).then((account) => cb(null, account));
             Customer.findOne({ _id: id }, (err, user) => {
                 // only store username and disregard other credentials
                 // restrict data that's sent back to the client
                 if (user) {
-                    console.log('USER.FINDONE FIRED')
-                    console.log('ERR', err)
-                    console.log('USER', user)
                     
                     const userInformation = {
                         username: user.username,
@@ -111,7 +84,6 @@ module.exports = function (passport) {
                 // if there's no user, null is the error and false is the admin user
                 if (!admin) return done(null, false); 
                 bcrypt.compare(password, admin.password, (err, result) => {
-                    console.log(result)
                     if (err) throw err;
                     if (result === true) {
                     return done(null, admin);

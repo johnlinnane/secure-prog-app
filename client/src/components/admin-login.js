@@ -34,11 +34,6 @@ function AdminLogin() {
             withCredentials: true,
             url: `${process.env.REACT_APP_API_BASE_URL}/api/admin-login`,
         }).then((res) => {
-            console.log(res.status);
-            console.log(res.data);
-            // if (res.status === 200) {
-            //     setRedirect(true)
-            // }
 
             if (res.data === 'Admin Successfully Authenticated') {
                 setRedirect(true)

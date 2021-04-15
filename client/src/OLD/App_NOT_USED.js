@@ -25,7 +25,7 @@ function Home() {
             },
             withCredentials: true,
             url: `${process.env.REACT_APP_API_BASE_URL}/api/customer-register`,
-        }).then((res) => console.log(res));
+        })
     };
     const login = () => {
         axios({
@@ -36,7 +36,7 @@ function Home() {
             },
             withCredentials: true,
             url: `${process.env.REACT_APP_API_BASE_URL}/api/customer-login`,
-        }).then((res) => console.log(res));
+        })
     };
     const getUser = () => {
         axios({
@@ -45,7 +45,6 @@ function Home() {
             url: `${process.env.REACT_APP_API_BASE_URL}/api/get-customer`,
         }).then((res) => {
             setData(res.data);
-            console.log(res.data);
         });
     };
 

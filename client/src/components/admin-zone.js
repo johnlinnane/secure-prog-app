@@ -18,7 +18,6 @@ function AdminZone() {
             url: `${process.env.REACT_APP_API_BASE_URL}/api/get-admin`,
         }).then((res) => {
             setAdminData(res.data);
-            console.log('RES.DATA: ',res.data);
             if (!res.data) {
                 setLoginFail(true)
             }
@@ -43,7 +42,6 @@ function AdminZone() {
             // const data = await res.json();
             const data = await res.data;
             setCustData(data);
-            console.log('CUSTOMER DATA: ', custData)
         } catch (err) {
             console.error(err);
         }
@@ -54,7 +52,6 @@ function AdminZone() {
         getCustomerData();
     });
 
-    console.log('ALERT: ', alert)
 
     return (
         <div className="page_view">

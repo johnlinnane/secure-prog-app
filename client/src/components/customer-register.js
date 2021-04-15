@@ -45,17 +45,8 @@ function CustomerRegister() {
                 setRedirect(true)
             }
             
-            console.log('RES.DATA: ',res.data)
         });
     };
-
-
-
-
-    // console.log('ALERT:', alert)
-    // console.log('REDIRECT:', redirect)
-
-    
 
 
     return (

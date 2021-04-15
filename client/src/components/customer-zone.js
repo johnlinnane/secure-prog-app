@@ -18,7 +18,6 @@ function CustomerZone() {
             url: `${process.env.REACT_APP_API_BASE_URL}/api/get-customer`,
         }).then((res) => {
             setUserData(res.data);
-            // console.log('RES.DATA', res.data);
             if (!res.data) {
                 setLoginFail(true)
             }
@@ -31,7 +30,6 @@ function CustomerZone() {
         getUser();
     }, []);
     
-    // console.log('ENV: ',process.env.REACT_APP_API_BASE_URL);
 
 
     // ************************ CLOUDINARY SHOW PROFILE PIC ************************ 
@@ -39,19 +37,6 @@ function CustomerZone() {
     const [imageIds, setImageIds] = useState();
 
 
-    // const loadImages =  (imageId) => {
-    //     try {
-    //         const res = await axios({
-    //             url: `${process.env.REACT_APP_API_BASE_URL}/api/images`,
-    //             method: 'POST',
-    //             withCredentials: true
-    //         });
-    //         const data = await res.data;
-    //         setImageIds(data);
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // };
 
 
 
@@ -70,14 +55,12 @@ function CustomerZone() {
     };
 
 
-    console.log('imageIds: ', imageIds);
 
 
     useEffect(() => {
         loadImages();
     }, []);
 
-    // console.log(imageIds)
 
     // ************************ CLOUDINARY FILE UPLOAD STUFF ************************ 
     const [fileInputState, setFileInputState] = useState('');
@@ -141,7 +124,6 @@ function CustomerZone() {
 
     // ************************
 
-    // console.log('loginfail: ', loginFail)
 
     return (
         <div className="page_view">
