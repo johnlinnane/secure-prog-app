@@ -49,7 +49,6 @@ app.use(cors({
 app.use(session({
     secret:process.env.SESSION_SECRET,
     resave: true,
-    // store and uninitialised session
     saveUninitialized: true
 }))
 
@@ -251,7 +250,7 @@ app.get("/api/get-admin-info", (req, res, next) => {
             }
         })
     } else {
-        res.send(null)
+        res.send('Admin not logged in')
     }
 })
 
@@ -273,15 +272,17 @@ app.post('/api/images', async (req, res) => {
 // app.post('/api/images', (req, res) => {
     
     if (req.user && req.user.id) {
+        
         const { resources } = await cloudinary.search
-        // const { resources } = cloudinary.search
             .expression('folder:sec-prog-app AND ' + req.user.id)
             .sort_by('public_id', 'desc')
             .max_results(1)
             .execute();
 
+         
         const publicIds = resources.map((file) => file.public_id);
         res.send(publicIds);
+
     }
 });
 
@@ -296,10 +297,10 @@ app.post('/api/upload', async (req, res) => {
             public_id: fileName,
             invalidate: true
         });
-        res.json({ msg: 'Image fetched successfully' });   // might not be json now with axios !!
+        res.json({ msg: 'Image fetched successfully' });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ err: 'Something went wrong' }); // might not be json now with axios !!
+        res.status(500).json({ err: 'Something went wrong' });
     }
 });
 

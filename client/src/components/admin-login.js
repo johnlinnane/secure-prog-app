@@ -48,6 +48,7 @@ function AdminLogin() {
     };
 
 
+
     if (redirect) {
         return <Redirect to='/admin-zone' />
     }
@@ -98,4 +99,6 @@ function AdminLogin() {
 
 export default AdminLogin;
 
-
+export const testo = (arg1, arg2) => {
+    return `${arg1} is in love with ${arg2}`
+}

@@ -138,22 +138,27 @@ function CustomerZone() {
                         {/* ************* SHOW PROFILE PIC ************* */}
 
                         <div className="user_section">
-                            Your Profile Picture:
-                            <div>
-                                {imageIds ?
-                                    imageIds.map((imageId, index) => (
-                                        <Image
-                                            key={index}
-                                            cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                                            publicId={imageId}
-                                            width="300"
-                                            crop="scale"
-                                        />
-                                    )) 
-                                : 
+                            {imageIds ?
+                                <div>
+                                    <p>Your Profile Picture:</p>
+                                    
+                                    {imageIds.map((imageId, index) => (
+                                            <Image
+                                                key={index}
+                                                cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+                                                publicId={imageId}
+                                                width="300"
+                                                crop="scale"
+                                            />
+                                    ))} 
+                                </div>
+                            : 
+                                <div>
+                                    <p>You have no profile picture uploaded.</p>
                                     <img src="/assets/images/app/profilepic.jpeg" width="300" alt="default profile" />
-                                }
-                            </div>
+                                    
+                                </div>
+                            }
                         </div>
 
 

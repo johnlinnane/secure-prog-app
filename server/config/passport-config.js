@@ -11,7 +11,6 @@ module.exports = function (passport) {
         // every time we use passport, this will happen
         new localStrategy((username, password, done) => {
             // find the user in the database
-
             Customer.findOne({ username: username }, (err, user) => {
                 if (err) throw err;
                 // if there's no user, null is the error and false is the user
@@ -38,26 +37,18 @@ module.exports = function (passport) {
 
       
     passport.deserializeUser((id, done) => {
-        // if (id.type === 'Customer') {
           
-        //     // Account.get(id.id).then((account) => cb(null, account));
             Customer.findOne({ _id: id }, (err, user) => {
-                // only store username and disregard other credentials
-                // restrict data that's sent back to the client
                 if (user) {
-                    
                     const userInformation = {
                         username: user.username,
                         id: user._id
                     };
-                    
                     done(err, userInformation);
                 }
             });
             
             Admin.findOne({ _id: id }, (err, user) => {
-                // only store username and disregard other credentials
-                // restrict data that's sent back to the client
                 if (user) {
                     const adminInformation = {
                         username: user.username,
