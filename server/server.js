@@ -250,7 +250,7 @@ app.get("/api/get-admin-info", (req, res, next) => {
             }
         })
     } else {
-        res.send('Admin not logged in')
+        res.status(401).send('Admin not logged in')
     }
 })
 
