@@ -129,7 +129,7 @@ app.post("/api/customer-register", [
             .exists({checkNull: true, checkFalsy: true})
             .withMessage('Please enter a password')
             .isLength({ min: 8 })
-            .withMessage('Password must be at least 8 characters long'),
+            .withMessage('Password must be at least 10 characters long'),
         check('password2', "Passwords don't match")
             .custom((pass2, { req }) => pass2 === req.body.password)
 
