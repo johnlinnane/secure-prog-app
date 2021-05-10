@@ -81,6 +81,7 @@ mongoose.connect(process.env.MONGO_DB, {
 
 async function validateHuman(token) {
     let secret = process.env.RECAPTCHA_SECRET_KEY;
+    console.log('secret', secret);
     // const secret = '6Lf6RKsaAAAAAFCZznVwocILK6HbGBZIqTAKV2tp';
     const response = await axios({
         url: `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`,
