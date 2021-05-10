@@ -98,6 +98,8 @@ async function validateHuman(token) {
 app.post("/api/customer-login", async (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
 
+
+    console.log('captToken', req.body.token);
     const human = await validateHuman(req.body.token);
 
     if (!human) {
@@ -230,8 +232,6 @@ app.get("/api/get-admin", (req, res, next) => {
 
 
 app.get("/api/get-admin-info", (req, res, next) => {
-    // if user is authenticated, req.user will have user info
-
     if (req.user) {
         Admin.findOne({ _id: req.user.id }, (err, user) => {
             if (user) {
@@ -243,8 +243,6 @@ app.get("/api/get-admin-info", (req, res, next) => {
                         console.log('NO DATA')
                     }
                 })
-
-
             } else {
                 res.send('Could not find admin')
             }
