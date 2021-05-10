@@ -81,8 +81,6 @@ mongoose.connect(process.env.MONGO_DB, {
 
 async function validateHuman(token) {
     let secret = process.env.RECAPTCHA_SECRET_KEY;
-    console.log('secret', secret);
-    // const secret = '6Lf6RKsaAAAAAFCZznVwocILK6HbGBZIqTAKV2tp';
     const response = await axios({
         url: `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`,
         method: 'POST'
@@ -91,18 +89,13 @@ async function validateHuman(token) {
     const data = await response;
 
     return data.data.success;
-    // return false;
 }
 
 // ************ CUSTOMER *********
 
 app.post("/api/customer-login", async (req, res, next) => {
     // use local strategy as definied in passportConfig.js file
-
-
-    console.log('captToken', req.body.token);
     const human = await validateHuman(req.body.token);
-    console.log('human', human);
 
     if (!human) {
         res.status(400).send('Recaptcha identifies user as a bot.')
