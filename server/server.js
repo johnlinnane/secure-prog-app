@@ -101,6 +101,7 @@ app.post("/api/customer-login", async (req, res, next) => {
 
     console.log('captToken', req.body.token);
     const human = await validateHuman(req.body.token);
+    console.log('human', human);
 
     if (!human) {
         res.status(400).send('Recaptcha identifies user as a bot.')
