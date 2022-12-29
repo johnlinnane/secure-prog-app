@@ -120,7 +120,6 @@ app.post("/api/customer-login", async (req, res, next) => {
 app.post("/api/customer-register", [
         // https://express-validator.github.io/docs/validation-chain-api.html
         check('username') 
-            
             .isLength({ min: 3 })
             .withMessage('Username must be at least 3 characters long')
             .exists({checkNull: true, checkFalsy: true})

@@ -87,24 +87,6 @@ module.exports = function (passport) {
         })
     );
     
-    // // store a serialised cookie in the broswer with user id
-    // passport.serializeUser((admin, cb) => {
-    //     cb(null, admin.id);
-    // });
-
-    // // finds user in database from cookie id
-    // passport.deserializeUser((id, cb) => {
-    //     Admin.findOne({ _id: id }, (err, admin) => {
-    //         // only store username and disregard other credentials
-    //         // restrict data that's sent back to the client
-    //         const adminInformation = {
-    //             username: admin.username
-    //         };
-    //         cb(err, adminInformation);
-    //     });
-    // });
-
-
 
 
 

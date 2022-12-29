@@ -16,8 +16,6 @@ function CustomerRegister() {
     const [alert, setAlert] = useState("");
     const [redirect, setRedirect] = useState(null);
 
-    // const [captchaSuccess, setCaptchaSuccess] = useState(false);
-
     const reRef = useRef();
 
     const register = async () => {

@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
 
-// const ReCAPTCHA = require('react-google-recaptcha');
 const ReCAPTCHA = require('react-google-recaptcha').default
 
 
