@@ -7,10 +7,6 @@
 /.pnp
 .pnp.js
 
-/server/ssl/*
-!/server/ssl/cert.pem.default
-!/server/ssl/key.pem.default
-
 # testing
 /coverage
 
@@ -19,7 +15,9 @@
 
 # config
 .env
-/server/ssl
+/server/ssl/*
+!/server/ssl/cert.pem.default
+!/server/ssl/key.pem.default
 cert.pem
 key.pem
 
